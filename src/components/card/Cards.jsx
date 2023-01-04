@@ -2,12 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import Card from './Card';
 
-const Cards = () => {
+const Cards = ({ items }) => {
   return (
     <DivCardWrapper>
-      <Card />
-      <Card />
-      <Card />
+      {items.map((card) => (
+        <Card item={card} />
+      ))}
     </DivCardWrapper>
   );
 };
