@@ -64,7 +64,7 @@ function DragNDrop({ data }) {
 
   if (list) {
     return (
-      <div className="drag-n-drop" onDragOver={(e) => e.preventDefault()}>        
+      <div className="drag-n-drop" onDragOver={(e) => e.preventDefault()}>
         {list.map((grp, grpI) => (
           <div
             key={grp.title}

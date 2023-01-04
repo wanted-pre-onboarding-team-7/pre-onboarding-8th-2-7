@@ -19,24 +19,23 @@ function Home() {
   return (
     <DivMain>
       <DivLeft>
-        <AddBtn setModal={setModal}/>
+        <AddBtn setModal={setModal} />
       </DivLeft>
       <DragNDrop data={defaultData} />
-      {modal && <DetailComponent/>}
+      {modal && <DetailComponent setModal={setModal} />}
     </DivMain>
   );
 }
 const DivMain = styled.div`
-  width:80%;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
+  width: 80%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin: 0 auto;
-
-`
+`;
 const DivLeft = styled.div`
-display:flex;
-justify-content:flex-end;
-`
+  display: flex;
+  justify-content: flex-end;
+`;
 export default Home;

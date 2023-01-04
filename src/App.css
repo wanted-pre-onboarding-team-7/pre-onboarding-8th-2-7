@@ -22,7 +22,7 @@
   border: 1px solid;
   color: #282c34;
   font-weight: bold;
-  cursor:grab;
+  cursor: grab;
 }
 .dnd-item:not(:last-of-type) {
   margin-bottom: 0.5rem;
