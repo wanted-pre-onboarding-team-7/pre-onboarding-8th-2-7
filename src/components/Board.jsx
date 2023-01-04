@@ -1,15 +1,27 @@
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import { issueListState } from '../store/atoms';
 import { KANBAN_STATE } from '../utils/constant';
+import Card from './Card';
 
 const Board = ({ status }) => {
+  const datas = useRecoilValue(issueListState);
+
   return (
     <DivWrapper>
       <DivFlexWrapper>
         <DivCircle status={status} />
         <BoardTitle>{status}</BoardTitle>
       </DivFlexWrapper>
-      <IssueCard></IssueCard>
-      <IssueCard></IssueCard>
+      {datas[status].map((issue, idx) => (
+        <Card
+          key={idx}
+          title={issue.title}
+          content={issue.content}
+          manager={issue.manager}
+          id={issue.id}
+        />
+      ))}
     </DivWrapper>
   );
 };
@@ -28,14 +40,7 @@ const DivFlexWrapper = styled.div`
   gap: 15px;
   margin-bottom: 20px;
 `;
-const IssueCard = styled.div`
-  width: 100%;
-  height: 130px;
-  margin-bottom: 15px;
-  background-color: ${(props) => props.theme.cardColor};
-  border-radius: 10px;
-  cursor: pointer;
-`;
+
 const BoardTitle = styled.div`
   font-size: 20px;
   font-weight: 500;
