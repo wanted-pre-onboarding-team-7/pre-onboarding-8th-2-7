@@ -18,27 +18,66 @@ const Modal = ({ clickOpenModal, issueId, status }) => {
   const filterdIssue = issueId !== null &&
     status && [...issues[status].filter((ele) => ele.id === issueId)];
   const [issue, setIssue] = useState(filterdIssue[0] || INIT_VAL);
+
   const titleRef = useRef();
   const managerRef = useRef();
   const dueDateRef = useRef();
   const statusRef = useRef();
   const contentRef = useRef();
-  console.log('렌더링!', status);
+  console.log('렌더링!', status, issueId);
 
   const clickAddIssue = (evt) => {
     evt.preventDefault();
-    if (window.confirm('제출하시겠습니까?')) {
-      const tmpIssue = {
-        id: Number(Date.now()),
-        title: titleRef.current.value,
-        content: contentRef.current.value,
-        dueDate: dueDateRef.current.value,
-        manager: managerRef.current.value,
-      };
+    const mode = issueId !== null && status ? 'read' : 'create';
+    const tmpIssue = {
+      id: issueId !== null ? issueId : Number(Date.now()),
+      title: titleRef.current.value,
+      content: contentRef.current.value,
+      dueDate: dueDateRef.current.value,
+      manager: managerRef.current.value,
+    };
+
+    // 이슈카드를 생성할때
+    if (mode === 'create' && window.confirm('제출하시겠습니까?')) {
       setIssues((prev) => {
-        const updateIssue = [...prev[statusRef.current.value], tmpIssue];
-        return { ...issues, [statusRef.current.value]: updateIssue };
+        // 특정 상태의 배열을 수정
+        const newIssue = [...prev[statusRef.current.value], tmpIssue];
+        // 전체 객체에서 해당 상태의 값들을 위에서 수정한 값으로 변경
+        return { ...prev, [statusRef.current.value]: newIssue };
       });
+      clickOpenModal();
+    }
+    // 기존의 이슈카드 수정할때
+    if (mode === 'read' && window.confirm('수정사항을 저장하시겠습니까?')) {
+      // 상태를 변경했을때 eg) 할일 => 완료
+      if (status !== statusRef.current.value) {
+        setIssues((prev) => {
+          // 1. 기존 상태를 탐색후 삭제
+          const prevState = [...issues[status]].filter(
+            (ele) => ele.id !== issueId,
+          );
+          // 2. 새로운 상태값에 변경값 추가
+          const nextState = [...issues[statusRef.current.value], tmpIssue];
+          // 그대로 반영
+          return {
+            ...prev,
+            [status]: prevState,
+            [statusRef.current.value]: nextState,
+          };
+        });
+      } else {
+        // 상태는 그대로일때 내용만 변경
+        setIssues((prev) => {
+          const issueArr = [...prev[statusRef.current.value]];
+          const updateIssue = issueArr.map((ele) =>
+            ele.id === issueId ? tmpIssue : ele,
+          );
+          return {
+            ...prev,
+            [statusRef.current.value]: updateIssue,
+          };
+        });
+      }
       clickOpenModal();
     }
   };
