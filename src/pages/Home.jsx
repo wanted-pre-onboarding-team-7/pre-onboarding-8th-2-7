@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import KanbanBoard from '../components/KanbanBoard';
-import KanbanHeader from '../components/KanbanHeader';
+import KanbanBoard from '../components/kanban/KanbanBoard';
+import KanbanHeader from '../components/kanban/KanbanHeader';
 import { theme } from '../theme';
 
 const Home = () => {
@@ -21,5 +21,5 @@ const DivWrapper = styled.div`
   padding: 50px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
 `;

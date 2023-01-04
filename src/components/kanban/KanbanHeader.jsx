@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { theme } from '../theme';
+import CreateCardBtn from '../btns/CreateCardBtn';
 
 const KanbanHeader = ({ children }) => {
   return (
     <DivWrapper>
-      <h1>{children}</h1>
-      <button>새로 만들기</button>
+      <H1Title>{children}</H1Title>
+      <CreateCardBtn />
     </DivWrapper>
   );
 };
@@ -14,4 +14,10 @@ export default KanbanHeader;
 
 const DivWrapper = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+const H1Title = styled.h1`
+  font-size: 24px;
+  font-weight: 500;
 `;

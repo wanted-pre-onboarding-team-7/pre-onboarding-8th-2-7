@@ -1,5 +1,3 @@
-import { KANBAN_STATE } from './utils/constant';
-
 export const theme = {
   todos: '#979795',
   progress: '#5c97bf',
