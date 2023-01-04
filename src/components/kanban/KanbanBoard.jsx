@@ -6,7 +6,7 @@ const KanbanBoard = () => {
   return (
     <DivColsWrapper>
       {KANBAN_COLS.map((col) => (
-        <KanbanColumn title={col} />
+        <KanbanColumn title={col} key={col} />
       ))}
     </DivColsWrapper>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import CreateCardBtn from '../btns/CreateCardBtn';
+import CardBtnUI from '../btns/CardBtnUI';
 import Cards from '../card/Cards';
 import KanbanColumnTitle from './KanbanColumnTitle';
 
@@ -9,6 +9,7 @@ const KanbanColumn = ({ title }) => {
     <DivColsWrapper>
       <KanbanColumnTitle title={title} />
       <Cards />
+      <CardBtnUI kanbanState={title} />
     </DivColsWrapper>
   );
 };

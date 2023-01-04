@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import CreateCardBtn from '../btns/CreateCardBtn';
+import KanbanBtnUI from '../btns/KanbanBtnUI';
 
 const KanbanHeader = ({ children }) => {
   return (
     <DivWrapper>
       <H1Title>{children}</H1Title>
-      <CreateCardBtn />
+      <KanbanBtnUI />
     </DivWrapper>
   );
 };

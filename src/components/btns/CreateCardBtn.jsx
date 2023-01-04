@@ -1,18 +1,19 @@
 import React from 'react';
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { theme } from '../../theme';
+import { creatBtnState } from '../../store/atom';
+import { KANBAN_STATE } from '../../utils/constant';
 
-const CreateCardBtn = () => {
-  return <Button bgColor={theme.button}>새로 만들기</Button>;
+const CreateCard = ({ children, kanbanState }) => {
+  const setcreatBtnState = useSetRecoilState(creatBtnState);
+  const clickBtn = () => {
+    const creatBtnState = kanbanState || KANBAN_STATE.TODOS;
+    setcreatBtnState(creatBtnState);
+  };
+  return <DivWrapper onClick={clickBtn}>{children}</DivWrapper>;
 };
-export default CreateCardBtn;
+export default CreateCard;
 
-const Button = styled.button`
-  border: none;
-  background-color: ${(props) => props.bgColor};
-  color: white;
-  padding: 8px;
-  border-radius: 10px;
-  font-weight: 300;
+const DivWrapper = styled.div`
   cursor: pointer;
 `;
