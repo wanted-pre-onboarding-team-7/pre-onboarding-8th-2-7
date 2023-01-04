@@ -5,32 +5,12 @@ import Modal from '../components/card/Modal.jsx';
 import styled from 'styled-components';
 import { useState } from 'react';
 import { theme } from '../theme.js';
-import { getCardsByStore, setCardsByStore } from '../store/cardStore.js';
-import { useRef } from 'react';
+import { getCardsByStore } from '../store/cardStore.js';
 
 const Home = () => {
   // localStorage.clear();
   const [cards, setCards] = useState(getCardsByStore('kanbanBoard') || {});
-  const [todoList, setTodoList] = useState(cards.todos || []);
   const [isOpen, setIsOpen] = useState(false);
-  const nextId = useRef(0);
-
-  const clickCreateButton = () => {
-    nextId.current += 1;
-    setTodoList([
-      ...todoList,
-      {
-        id: nextId.current,
-        title: '할일을 입력하세요',
-        manager: '',
-        status: 'todo',
-        content: '카드를 클릭해 할 일을 입력하세요',
-        dueDate: '',
-      },
-    ]);
-    setCards({ ...cards, todos: todoList });
-    setCardsByStore('kanbanBoard', cards);
-  };
 
   // modal
   const clickCard = () => {
@@ -39,7 +19,7 @@ const Home = () => {
 
   return (
     <>
-      <KanBanHeader clickCreateButton={clickCreateButton} />
+      <KanBanHeader setCards={setCards} />
       <DivCardListContainer>
         <CardList
           type={'할 일'}

@@ -4,7 +4,6 @@ import { getCardsByStore, setCardsByStore } from '../../store/cardStore';
 
 const CardList = ({ type, stateColor, status, setCards, data, clickCard }) => {
   const cards = getCardsByStore('kanbanBoard');
-  // create
 
   // delete
   const clickDeleteButton = (id) => {

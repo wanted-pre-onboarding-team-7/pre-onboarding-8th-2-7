@@ -1,13 +1,9 @@
-import { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { getCardsByStore } from '../../store/cardStore';
 
 const Card = ({
   id,
   title,
   manager,
-  status,
-  setCards,
   clickDeleteButton,
   content,
   clickCard,

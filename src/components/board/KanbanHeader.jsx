@@ -1,7 +1,28 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
+import { getCardsByStore, setCardsByStore } from '../../store/cardStore';
 
-const KanBanHeader = ({ clickCreateButton }) => {
+const KanBanHeader = ({ setCards }) => {
+  const cards = getCardsByStore('kanbanBoard');
+  const id = useRef(0);
+  const clickCreateButton = () => {
+    id.current += 1;
+    const addedTodos = [
+      ...cards.todos,
+      {
+        id: id.current,
+        title: '할일을 입력하세요',
+        manager: '',
+        status: 'todo',
+        content: '카드를 클릭해 할 일을 입력하세요',
+        dueDate: '',
+      },
+    ];
+    const result = { ...cards, todos: addedTodos };
+    setCards(result);
+    setCardsByStore('kanbanBoard', result);
+  };
+
   return (
     <DivContainer>
       <SpanHeader>KanBan Board</SpanHeader>
