@@ -4,18 +4,19 @@ import styled from 'styled-components';
 import KanbanBoard from '../components/kanban/KanbanBoard';
 import KanbanHeader from '../components/kanban/KanbanHeader';
 import Modal from '../components/modal/Modal';
-import { isModalState } from '../store/atom';
+import { modalState } from '../store/atom';
 import { theme } from '../theme';
+import { isObjectHasKey } from '../utils/utilFn';
 
 const Home = () => {
-  const isModal = useRecoilValue(isModalState);
+  const modalData = useRecoilValue(modalState);
   return (
     <DivWrapper>
       <DivKanbanWrapper bgColor={theme.background}>
         <KanbanHeader>Team 7 Kanban Board</KanbanHeader>
         <KanbanBoard />
       </DivKanbanWrapper>
-      {isModal && <Modal />}
+      {isObjectHasKey(modalData) && <Modal />}
     </DivWrapper>
   );
 };

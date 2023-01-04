@@ -24,3 +24,21 @@ export const KANBAN_TITLE = {
     NAME: '완료',
   },
 };
+
+export const MODAL_ROWS = {
+  manager: {
+    id: 'manager',
+    labelText: '담당자',
+    type: 'text',
+  },
+  dueDate: {
+    id: 'dueDate',
+    labelText: '마감일',
+    type: 'datetime-local',
+  },
+  state: {
+    id: 'state',
+    labelText: '상태',
+    type: 'text',
+  },
+};

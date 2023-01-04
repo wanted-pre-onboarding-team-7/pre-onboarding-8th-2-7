@@ -1,14 +1,14 @@
 import React from 'react';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { isModalState } from '../../store/atom';
+import { modalState } from '../../store/atom';
 import { theme } from '../../theme';
 import DeleteCardBtn from '../btns/DeleteCardBtn';
 
 const Card = ({ item, kanbanState }) => {
-  const setIsModalState = useSetRecoilState(isModalState);
+  const setmModalState = useSetRecoilState(modalState);
   const clickCard = () => {
-    setIsModalState(true);
+    setmModalState({ ...item, state: kanbanState });
   };
 
   return (

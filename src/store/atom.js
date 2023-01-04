@@ -1,20 +1,29 @@
-import { atom, atomFamily, selectorFamily } from 'recoil';
+import { atom, atomFamily, selector, selectorFamily } from 'recoil';
+import { Card } from '../class/card';
 import { KANBAN_STATE } from '../utils/constant';
 import { DUMMY_KANBAN } from '../utils/dummyData';
 import {
   getLocalStorageKanban,
   isKanbanEmpty,
   postDummyData,
+  postLocalStorageId,
   postLocalStorageKanban,
 } from '../utils/localStorgeFn';
 
-export const clickedKanbanState = atom({
-  key: 'clickedKanbanState',
-  default: KANBAN_STATE.TODOS,
+export const modalState = atom({
+  key: 'ModalState',
+  default: {},
 });
-export const isModalState = atom({
-  key: 'isModalState',
-  default: false,
+
+export const modalCardSelector = selector({
+  key: 'modalCardSelector',
+  get: ({ get }) => {
+    const modal = get(modalState);
+    if (modal.id !== undefined) {
+      return { ...modal };
+    }
+    return modal.state;
+  },
 });
 
 const localStorageEffect =
@@ -22,6 +31,7 @@ const localStorageEffect =
   ({ setSelf, onSet }) => {
     if (isKanbanEmpty()) {
       postDummyData();
+      postLocalStorageId(6);
     }
     const savedValue = getLocalStorageKanban(key);
 

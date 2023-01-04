@@ -2,16 +2,13 @@ import React from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { kanbanCardsState } from '../../store/atom';
+import { deleteCard } from '../../utils/utilFn';
 
 const DeleteCardBtn = ({ id, kanbanState }) => {
   const [cards, setCards] = useRecoilState(kanbanCardsState[kanbanState]);
 
   const clickDelBtn = (e) => {
-    const clickedId = e.target.id;
-    const prevCards = [...cards];
-    const newCards = prevCards.filter(
-      (card) => String(card.id) !== String(clickedId),
-    );
+    const newCards = deleteCard([...cards], e.target.id);
     setCards(newCards);
   };
   return (
