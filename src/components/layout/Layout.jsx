@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { theme } from '../theme.js';
+import { theme } from '../../theme.js';
 export default function Layout({ children, ...props }) {
   return (
     <Container {...props}>
@@ -10,7 +10,7 @@ export default function Layout({ children, ...props }) {
 
 const Container = styled.main`
   position: absolute;
-  width: 80vw;
+  width: 60vw;
   height: 80vh;
   background-color: ${theme.backgroundColor};
   left: 50%;
