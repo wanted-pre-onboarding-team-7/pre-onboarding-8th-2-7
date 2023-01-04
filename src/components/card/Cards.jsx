@@ -6,7 +6,7 @@ const Cards = ({ items }) => {
   return (
     <DivCardWrapper>
       {items.map((card) => (
-        <Card item={card} />
+        <Card item={card} key={card.id} />
       ))}
     </DivCardWrapper>
   );
