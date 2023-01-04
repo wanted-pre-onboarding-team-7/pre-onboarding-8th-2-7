@@ -9,8 +9,10 @@ import { useRef } from 'react';
 import { useEffect } from 'react';
 
 const Home = () => {
+  // localStorage.clear();
   const [cards, setCards] = useState(getCardsByStore('kanbanBoard') || []);
   const nextId = useRef(0);
+
   const clickCreateButton = () => {
     nextId.current += 1;
     setCards((card) => [
@@ -24,17 +26,18 @@ const Home = () => {
         dueDate: '',
       },
     ]);
-
-    console.log(cards);
-    console.log(getCardsByStore('kanbanBoard'));
   };
+
   // 1. 왜 useState가 비동기 처리처럼 실행될까?
   // 2. 왜 useRef 안먹지?
   useEffect(() => {
     setCardsByStore('kanbanBoard', cards);
   }, [clickCreateButton]);
 
-  localStorage.clear();
+  const clickDeleteButton = (id) => {
+    setCards((prev) => prev.filter((card) => card.id !== id));
+  };
+
   return (
     <>
       <KanBanHeader clickCreateButton={clickCreateButton} />
@@ -43,6 +46,7 @@ const Home = () => {
           type={'할 일'}
           stateColor={theme.todosColor}
           data={cards.filter((card) => card.status === 'todo')}
+          clickDeleteButton={clickDeleteButton}
         />
         <CardList
           type={'진행 중'}

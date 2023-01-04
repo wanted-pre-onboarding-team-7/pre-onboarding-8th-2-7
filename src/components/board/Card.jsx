@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Card = ({ id, title, manager, content }) => {
+const Card = ({ id, title, manager, content, clickDeleteButton }) => {
   return (
     <DivContainer>
       <div>
@@ -9,7 +9,9 @@ const Card = ({ id, title, manager, content }) => {
         <div>{content}</div>
       </div>
       <DivSideContainer>
-        <BtnDeleteButton>X</BtnDeleteButton>
+        <BtnDeleteButton onClick={() => clickDeleteButton(id)}>
+          X
+        </BtnDeleteButton>
         <div>{id}</div>
       </DivSideContainer>
     </DivContainer>
