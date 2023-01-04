@@ -21,8 +21,8 @@ function Home() {
       <DivLeft>
         <AddBtn setModal={setModal} />
       </DivLeft>
-      <DragNDrop data={defaultData} />
-      {modal && <DetailComponent setModal={setModal} />}
+      <DragNDrop data={data} />
+      {modal && <DetailComponent setModal={setModal} data={data}/>}
     </DivMain>
   );
 }
