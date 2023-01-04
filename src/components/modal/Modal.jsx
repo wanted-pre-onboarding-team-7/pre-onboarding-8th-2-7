@@ -1,11 +1,11 @@
 import React from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { creatBtnState, isModalState } from '../../store/atom';
+import { clickedKanbanState, isModalState } from '../../store/atom';
 import { theme } from '../../theme';
 
 const Modal = () => {
-  const kanbanState = useRecoilValue(creatBtnState);
+  const kanbanState = useRecoilValue(clickedKanbanState);
   const setIsModalState = useSetRecoilState(isModalState);
   const clickOverlay = (e) => {
     if (e.target.id === 'overlay') {

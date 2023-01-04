@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import Card from './Card';
 
-const Cards = ({ items }) => {
+const Cards = ({ items, kanbanState }) => {
   return (
     <DivCardWrapper>
       {items.map((card) => (
-        <Card item={card} key={card.id} />
+        <Card item={card} kanbanState={kanbanState} key={card.id} />
       ))}
     </DivCardWrapper>
   );

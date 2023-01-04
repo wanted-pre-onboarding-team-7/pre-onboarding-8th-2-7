@@ -1,6 +1,7 @@
-import { KANBAN_STATE } from './constant';
+import { KANBAN_COLS, KANBAN_STATE } from './constant';
+import { DUMMY_KANBAN } from './dummyData';
 
-export const isKanbanEmpty = async () => {
+export const isKanbanEmpty = () => {
   const isEmpty =
     getLocalStorageKanban(KANBAN_STATE.TODOS).length === 0 &&
     getLocalStorageKanban(KANBAN_STATE.PROGRESS).length === 0 &&
@@ -15,17 +16,9 @@ export const getLocalStorageKanban = (key) => {
   }
   return JSON.parse(cards);
 };
-export const saveLocalStorageKanban = async (key, cards) => {
+export const postLocalStorageKanban = (key, cards) => {
   return localStorage.setItem(key, JSON.stringify(cards));
 };
-
-// export const getLocalStorageTodos = () => {
-//   const cards = localStorage.getItem(KANBAN_STATE.TODOS);
-//   if (cards === null) {
-//     return cards;
-//   }
-//   return JSON.parse(cards);
-// };
-// export const saveLocalStorageTodos = (cards) => {
-//   return localStorage.setItem(KANBAN_STATE.TODOS, JSON.stringify(cards));
-// };
+export const postDummyData = () => {
+  KANBAN_COLS.map((key) => postLocalStorageKanban(key, DUMMY_KANBAN[key]));
+};

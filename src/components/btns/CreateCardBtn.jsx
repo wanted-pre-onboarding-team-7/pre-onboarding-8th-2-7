@@ -1,15 +1,15 @@
 import React from 'react';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { creatBtnState, isModalState } from '../../store/atom';
+import { clickedKanbanState, isModalState } from '../../store/atom';
 import { KANBAN_STATE } from '../../utils/constant';
 
 const CreateCard = ({ children, kanbanState }) => {
-  const setcreatBtnState = useSetRecoilState(creatBtnState);
+  const setclickedKanbanState = useSetRecoilState(clickedKanbanState);
   const setIsModalState = useSetRecoilState(isModalState);
   const clickBtn = () => {
-    const creatBtnState = kanbanState || KANBAN_STATE.TODOS;
-    setcreatBtnState(creatBtnState);
+    const clickedKanbanState = kanbanState || KANBAN_STATE.TODOS;
+    setclickedKanbanState(clickedKanbanState);
     setIsModalState(true);
   };
   return <DivWrapper onClick={clickBtn}>{children}</DivWrapper>;

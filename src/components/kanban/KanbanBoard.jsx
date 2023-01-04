@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import KanbanColumn from './KanbanColumn';
 import { KANBAN_COLS } from '../../utils/constant';

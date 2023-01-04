@@ -3,15 +3,14 @@ import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { isModalState } from '../../store/atom';
 import { theme } from '../../theme';
+import DeleteCardBtn from '../btns/DeleteCardBtn';
 
-const Card = ({ item }) => {
+const Card = ({ item, kanbanState }) => {
   const setIsModalState = useSetRecoilState(isModalState);
   const clickCard = () => {
     setIsModalState(true);
   };
-  const clickDelBtn = () => {
-    console.log('del');
-  };
+
   return (
     <DivWrapper>
       <DivCard
@@ -28,7 +27,7 @@ const Card = ({ item }) => {
           <span>{item.id}</span>
         </DivColRight>
       </DivCard>
-      <ButtonDelete onClick={clickDelBtn}>🗑️</ButtonDelete>
+      <DeleteCardBtn id={item.id} kanbanState={kanbanState} />
     </DivWrapper>
   );
 };
@@ -65,14 +64,6 @@ const DivColRight = styled.div`
   justify-content: flex-end;
 `;
 
-const ButtonDelete = styled.button`
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  position: absolute;
-  top: 15px;
-  right: 15px;
-`;
 const SpanManager = styled.span``;
 const SpanContent = styled.span`
   overflow: hidden;
