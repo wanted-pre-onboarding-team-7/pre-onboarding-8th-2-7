@@ -13,14 +13,28 @@ export const users = [
 export const kanbanBoard = {
   [KANBAN_STATE.TODOS]: [
     {
-      id: 0,
+      id: 9,
       title: '팀프로젝트 회의',
       content: 'Best practice 찾기',
       dueDate: '2023-01-12T19:30',
       manager: '김형욱',
     },
     {
-      id: 6,
+      id: 1,
+      title: '팀프로젝트 회의',
+      content: 'Best practice 찾기',
+      dueDate: '2023-01-12T19:30',
+      manager: '임수진',
+    },
+    {
+      id: 15,
+      title: '팀프로젝트 회의',
+      content: 'Best practice 찾기',
+      dueDate: '2023-01-12T19:30',
+      manager: '임수진',
+    },
+    {
+      id: 14,
       title: '팀프로젝트 회의',
       content: 'Best practice 찾기',
       dueDate: '2023-01-12T19:30',
