@@ -1,8 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const KanbanItem = ({ id, title, content, dueDate, manager, clickKanban }) => {
-  const clickEraseKanbanItem = () => {};
+const KanbanItem = ({
+  id,
+  title,
+  content,
+  dueDate,
+  manager,
+  setKanban,
+  status,
+  clickKanban,
+}) => {
+  const clickEraseKanbanItem = (e) => {
+    e.stopPropagation();
+    setKanban((kanban) => {
+      return {
+        ...kanban,
+        [status]: kanban[status].filter((kanbanData) => kanbanData.id !== id),
+      };
+    });
+  };
   const clickKanbanItem = ({ id, title, content, dueDate, manager }) => {
     clickKanban({ id, title, content, dueDate, manager });
   };

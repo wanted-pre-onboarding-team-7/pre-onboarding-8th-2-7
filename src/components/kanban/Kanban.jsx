@@ -2,7 +2,7 @@ import KanbanItem from './KanbanItem';
 import React from 'react';
 import styled from 'styled-components';
 
-const Kanban = ({ status, items, clickKanban }) => {
+const Kanban = ({ status, items, setKanban, clickKanban }) => {
   const clickKanbanItem = (item) => clickKanban(item, status);
   return (
     <KanbanContainer>
@@ -16,6 +16,8 @@ const Kanban = ({ status, items, clickKanban }) => {
             content={content}
             dueDate={dueDate}
             manager={manager}
+            setKanban={setKanban}
+            status={status}
             clickKanban={clickKanbanItem}
             key={id}
           />

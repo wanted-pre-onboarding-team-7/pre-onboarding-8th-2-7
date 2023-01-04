@@ -44,6 +44,7 @@ const KanbanContainer = () => {
             <Kanban
               status={key}
               items={kanban[key]}
+              setKanban={setKanban}
               clickKanban={clickKanban}
             />
           </div>
