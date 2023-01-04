@@ -1,6 +1,17 @@
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
+import { issueListState } from '../store/atoms';
 
 const Card = ({ title, content, manager, id, status, clickOpenModal }) => {
+  const [, setIssues] = useRecoilState(issueListState);
+  const clickDeleteIssue = (evt) => {
+    evt.stopPropagation();
+    setIssues((prev) => {
+      const updateState = [...prev[status]].filter((ele) => ele.id !== id);
+      return { ...prev, [status]: updateState };
+    });
+  };
+
   return (
     <>
       <DivCard
@@ -13,7 +24,7 @@ const Card = ({ title, content, manager, id, status, clickOpenModal }) => {
             {title}
             <span>#{id}</span>
           </DivCardTitle>
-          <DivDelBtn>
+          <DivDelBtn onClick={clickDeleteIssue}>
             <div>x</div>
           </DivDelBtn>
         </DivFlexWrapper>

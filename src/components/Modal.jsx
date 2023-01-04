@@ -17,14 +17,13 @@ const Modal = ({ clickOpenModal, issueId, status }) => {
 
   const filterdIssue = issueId !== null &&
     status && [...issues[status].filter((ele) => ele.id === issueId)];
-  const [issue, setIssue] = useState(filterdIssue[0] || INIT_VAL);
+  const [issue] = useState(filterdIssue[0] || INIT_VAL);
 
   const titleRef = useRef();
   const managerRef = useRef();
   const dueDateRef = useRef();
   const statusRef = useRef();
   const contentRef = useRef();
-  console.log('렌더링!', status, issueId);
 
   const clickAddIssue = (evt) => {
     evt.preventDefault();
