@@ -8,7 +8,7 @@ const { persistAtom } = recoilPersist({
 });
 
 export const issueListState = atom({
-  key: 'issue',
+  key: 'issueList',
   default: kanbanBoard,
   effects_UNSTABLE: [persistAtom],
 });
