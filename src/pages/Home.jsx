@@ -5,14 +5,29 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { theme } from '../theme.js';
 import { getCardsByStore, setCardsByStore } from '../store/cardStore.js';
+import { useRef } from 'react';
 
 const Home = () => {
   const [cards, setCards] = useState([getCardsByStore('kanbanBoard')]);
-  console.log(cards);
+  const nextTd = useRef(0);
+  const clickCreateButton = () => {
+    nextTd.current += 1;
+    setCards((card) => [
+      ...card,
+      {
+        id: nextTd.current,
+        title: '할일을 입력하세요',
+        manager: '',
+        status: 'todo',
+        content: '카드를 클릭해 할 일을 입력하세요',
+        dueDate: '',
+      },
+    ]);
+  };
 
   return (
     <>
-      <KanBanHeader />
+      <KanBanHeader clickCreateButton={clickCreateButton} />
       <DivCardListContainer>
         <CardList
           type={'할 일'}

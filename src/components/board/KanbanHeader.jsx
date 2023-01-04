@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const KanBanHeader = () => {
+const KanBanHeader = ({ clickCreateButton }) => {
   return (
     <DivContainer>
       <SpanHeader>KanBan Board</SpanHeader>
-      <BtnCreateCardButton>새로 만들기</BtnCreateCardButton>
+      <BtnCreateCardButton onClick={clickCreateButton}>
+        새로 만들기
+      </BtnCreateCardButton>
     </DivContainer>
   );
 };
