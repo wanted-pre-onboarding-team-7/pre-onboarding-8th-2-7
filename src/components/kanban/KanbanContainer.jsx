@@ -55,7 +55,6 @@ const KanbanContainer = () => {
 
 const DiffKanban = styled.div`
   display: flex;
-  width: 300px;
 `;
 
 export default KanbanContainer;
