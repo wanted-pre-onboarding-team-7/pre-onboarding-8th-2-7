@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Card from './Card';
 
 const CardList = ({ type, stateColor, data }) => {
   return (
@@ -7,7 +8,9 @@ const CardList = ({ type, stateColor, data }) => {
         <BtnStateColor stateColor={stateColor}></BtnStateColor>
         {type}
       </DivListHeader>
-      {data.map((card) => console.log(card.id))}
+      {data.map((card) => (
+        <Card key={card.id} {...card} />
+      ))}
     </DivContainer>
   );
 };
@@ -15,7 +18,7 @@ const CardList = ({ type, stateColor, data }) => {
 export default CardList;
 
 const DivContainer = styled.div`
-  width: 30vw;
+  width: 20vw;
   margin: 15px;
 `;
 

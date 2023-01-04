@@ -10,7 +10,7 @@ const Home = () => {
   const [todoList, setTodoList] = useState(kanbanBoard.todos);
   const [progressList, setProgressList] = useState(kanbanBoard.progress);
   const [doneList, setDoneList] = useState(kanbanBoard.done);
-  console.log(todoList);
+
   return (
     <>
       <KanBanHeader />

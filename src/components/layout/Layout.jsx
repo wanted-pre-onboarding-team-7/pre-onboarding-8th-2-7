@@ -12,6 +12,7 @@ const Container = styled.main`
   position: absolute;
   width: 60vw;
   height: 80vh;
+  padding: 20px;
   background-color: ${theme.backgroundColor};
   left: 50%;
   top: 50%;
