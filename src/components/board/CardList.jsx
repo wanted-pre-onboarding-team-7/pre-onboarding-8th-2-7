@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Card from './Card';
 
-const CardList = ({ type, stateColor, data, clickDeleteButton }) => {
+const CardList = ({ type, stateColor, data, clickDeleteButton, clickCard }) => {
   return (
     <DivContainer>
       <DivListHeader>
@@ -9,7 +9,12 @@ const CardList = ({ type, stateColor, data, clickDeleteButton }) => {
         {type}
       </DivListHeader>
       {data.map((card) => (
-        <Card key={card.id} {...card} clickDeleteButton={clickDeleteButton} />
+        <Card
+          key={card.id}
+          {...card}
+          clickDeleteButton={clickDeleteButton}
+          clickCard={clickCard}
+        />
       ))}
     </DivContainer>
   );

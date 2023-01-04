@@ -1,8 +1,15 @@
 import styled from 'styled-components';
 
-const Card = ({ id, title, manager, content, clickDeleteButton }) => {
+const Card = ({
+  id,
+  title,
+  manager,
+  content,
+  clickDeleteButton,
+  clickCard,
+}) => {
   return (
-    <DivContainer>
+    <DivContainer onClick={() => clickCard()}>
       <div>
         {title}
         <div>담당자: {manager}</div>

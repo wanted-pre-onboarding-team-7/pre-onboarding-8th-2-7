@@ -1,6 +1,7 @@
 import React from 'react';
 import KanBanHeader from '../components/board/KanbanHeader.jsx';
 import CardList from '../components/board/CardList.jsx';
+import Modal from '../components/card/Modal.jsx';
 import styled from 'styled-components';
 import { useState } from 'react';
 import { theme } from '../theme.js';
@@ -11,6 +12,7 @@ import { useEffect } from 'react';
 const Home = () => {
   // localStorage.clear();
   const [cards, setCards] = useState(getCardsByStore('kanbanBoard') || []);
+  const [isOpen, setIsOpen] = useState(false);
   const nextId = useRef(0);
 
   const clickCreateButton = () => {
@@ -38,6 +40,11 @@ const Home = () => {
     setCards((prev) => prev.filter((card) => card.id !== id));
   };
 
+  // modal
+  const clickCard = () => {
+    setIsOpen(true);
+  };
+
   return (
     <>
       <KanBanHeader clickCreateButton={clickCreateButton} />
@@ -47,18 +54,30 @@ const Home = () => {
           stateColor={theme.todosColor}
           data={cards.filter((card) => card.status === 'todo')}
           clickDeleteButton={clickDeleteButton}
+          clickCard={clickCard}
         />
         <CardList
           type={'진행 중'}
           stateColor={theme.progressColor}
           data={cards.filter((card) => card.status === 'progress')}
+          clickDeleteButton={clickDeleteButton}
+          clickCard={clickCard}
         />
         <CardList
           type={'완료'}
           stateColor={theme.doneColor}
           data={cards.filter((card) => card.status === 'done')}
+          clickDeleteButton={clickDeleteButton}
+          clickCard={clickCard}
         />
       </DivCardListContainer>
+      {isOpen && (
+        <Modal
+          onClose={() => {
+            setIsOpen(false);
+          }}
+        />
+      )}
     </>
   );
 };
