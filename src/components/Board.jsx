@@ -1,7 +1,7 @@
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { issueListState } from '../store/atoms';
-import { KANBAN_STATE } from '../utils/constant';
+import { KANBAN_STATE, BOARD_TITLE } from '../utils/constant';
 import Card from './Card';
 
 const Board = ({ status }) => {
@@ -11,7 +11,7 @@ const Board = ({ status }) => {
     <DivWrapper>
       <DivFlexWrapper>
         <DivCircle status={status} />
-        <BoardTitle>{status}</BoardTitle>
+        <BoardTitle>{BOARD_TITLE[status]}</BoardTitle>
       </DivFlexWrapper>
       {datas[status].map((issue, idx) => (
         <Card
