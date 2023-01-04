@@ -4,12 +4,15 @@ import { issueListState } from '../store/atoms';
 
 const Card = ({ title, content, manager, id, status, clickOpenModal }) => {
   const [, setIssues] = useRecoilState(issueListState);
+
   const clickDeleteIssue = (evt) => {
     evt.stopPropagation();
-    setIssues((prev) => {
-      const updateState = [...prev[status]].filter((ele) => ele.id !== id);
-      return { ...prev, [status]: updateState };
-    });
+    if (window.confirm('정말 삭제하시겠습니까?')) {
+      setIssues((prev) => {
+        const updateState = [...prev[status]].filter((ele) => ele.id !== id);
+        return { ...prev, [status]: updateState };
+      });
+    }
   };
 
   return (
