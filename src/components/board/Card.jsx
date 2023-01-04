@@ -1,16 +1,20 @@
+import { useRef, useState } from 'react';
 import styled from 'styled-components';
+import { getCardsByStore } from '../../store/cardStore';
 
 const Card = ({
   id,
   title,
   manager,
-  content,
+  status,
+  setCards,
   clickDeleteButton,
+  content,
   clickCard,
 }) => {
   return (
-    <DivContainer onClick={() => clickCard()}>
-      <div>
+    <DivContainer>
+      <div onClick={() => clickCard()}>
         {title}
         <div>담당자: {manager}</div>
         <div>{content}</div>

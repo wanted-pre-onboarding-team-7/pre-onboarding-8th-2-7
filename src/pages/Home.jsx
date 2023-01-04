@@ -7,18 +7,18 @@ import { useState } from 'react';
 import { theme } from '../theme.js';
 import { getCardsByStore, setCardsByStore } from '../store/cardStore.js';
 import { useRef } from 'react';
-import { useEffect } from 'react';
 
 const Home = () => {
   // localStorage.clear();
-  const [cards, setCards] = useState(getCardsByStore('kanbanBoard') || []);
+  const [cards, setCards] = useState(getCardsByStore('kanbanBoard') || {});
+  const [todoList, setTodoList] = useState(cards.todos || []);
   const [isOpen, setIsOpen] = useState(false);
   const nextId = useRef(0);
 
   const clickCreateButton = () => {
     nextId.current += 1;
-    setCards((card) => [
-      ...card,
+    setTodoList([
+      ...todoList,
       {
         id: nextId.current,
         title: '할일을 입력하세요',
@@ -28,16 +28,8 @@ const Home = () => {
         dueDate: '',
       },
     ]);
-  };
-
-  // 1. 왜 useState가 비동기 처리처럼 실행될까?
-  // 2. 왜 useRef 안먹지?
-  useEffect(() => {
+    setCards({ ...cards, todos: todoList });
     setCardsByStore('kanbanBoard', cards);
-  }, [clickCreateButton]);
-
-  const clickDeleteButton = (id) => {
-    setCards((prev) => prev.filter((card) => card.id !== id));
   };
 
   // modal
@@ -51,23 +43,24 @@ const Home = () => {
       <DivCardListContainer>
         <CardList
           type={'할 일'}
+          status={'todos'}
           stateColor={theme.todosColor}
-          data={cards.filter((card) => card.status === 'todo')}
-          clickDeleteButton={clickDeleteButton}
+          data={cards.todos}
+          setCards={setCards}
           clickCard={clickCard}
         />
         <CardList
           type={'진행 중'}
+          status={'progress'}
           stateColor={theme.progressColor}
-          data={cards.filter((card) => card.status === 'progress')}
-          clickDeleteButton={clickDeleteButton}
+          data={cards.progress}
           clickCard={clickCard}
         />
         <CardList
           type={'완료'}
+          status={'done'}
           stateColor={theme.doneColor}
-          data={cards.filter((card) => card.status === 'done')}
-          clickDeleteButton={clickDeleteButton}
+          data={cards.done}
           clickCard={clickCard}
         />
       </DivCardListContainer>

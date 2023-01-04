@@ -1,19 +1,34 @@
 import styled from 'styled-components';
 import Card from './Card';
+import { getCardsByStore, setCardsByStore } from '../../store/cardStore';
 
-const CardList = ({ type, stateColor, data, clickDeleteButton, clickCard }) => {
+const CardList = ({ type, stateColor, status, setCards, data, clickCard }) => {
+  const cards = getCardsByStore('kanbanBoard');
+  // create
+
+  // delete
+  const clickDeleteButton = (id) => {
+    const result = {
+      ...cards,
+      [status]: data.filter((prev) => prev.id !== id),
+    };
+    console.log(result);
+    setCards(result);
+    setCardsByStore('kanbanBoard', result);
+  };
   return (
     <DivContainer>
       <DivListHeader>
         <BtnStateColor stateColor={stateColor}></BtnStateColor>
         {type}
       </DivListHeader>
-      {data.map((card) => (
+      {data?.map((card) => (
         <Card
           key={card.id}
           {...card}
-          clickDeleteButton={clickDeleteButton}
           clickCard={clickCard}
+          setCards={setCards}
+          clickDeleteButton={clickDeleteButton}
         />
       ))}
     </DivContainer>
