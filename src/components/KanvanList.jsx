@@ -36,9 +36,10 @@ const DivListLayout = styled.div`
 
 const DivStatusWrapper = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   height: 15%;
+  padding: 20px;
 `;
 
 const DivStatusContainer = styled.div`
