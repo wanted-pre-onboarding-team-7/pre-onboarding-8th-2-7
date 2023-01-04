@@ -1,21 +1,51 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import { USERS } from '../../utils/dummyData';
+import Dropdown from '../modal/Dropdown';
 
 const ModalManagerInput = ({ card }) => {
   const inputRef = useRef();
+  const [filterdUser, setFilterdUser] = useState([]);
+  const [isDropdown, setIsDropdown] = useState(false);
+
   useEffect(() => {
     if (card.manager) {
-      inputRef.current.value = card.manager;
+      setInputRef(card.manager);
     }
   }, []);
-  const onChange = (e) => {
+
+  const setInputRef = (value) => {
+    inputRef.current.value = value;
+    card.manager = inputRef.current.value;
+    setIsDropdown(false);
+  };
+
+  const filterUserByCurrValue = () => {
+    return USERS.filter((user) => user.includes(inputRef.current.value));
+  };
+
+  const onChange = () => {
+    setFilterdUser(filterUserByCurrValue());
     card.manager = inputRef.current.value;
   };
 
-  return <InputTitle type="text" onChange={onChange} ref={inputRef} />;
+  return (
+    <DivWrapper>
+      <InputTitle
+        type="text"
+        onChange={onChange}
+        ref={inputRef}
+        onFocus={() => setIsDropdown(true)}
+      />
+      ;{isDropdown && <Dropdown items={filterdUser} setValue={setInputRef} />}
+    </DivWrapper>
+  );
 };
 
 export default ModalManagerInput;
+const DivWrapper = styled.div`
+  position: relative;
+`;
 const InputTitle = styled.input`
   border: none;
   background-color: transparent;

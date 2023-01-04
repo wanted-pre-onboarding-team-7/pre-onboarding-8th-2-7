@@ -8,8 +8,9 @@ const ModalDueDateInput = ({ card }) => {
       setDueDate(card.dueDate);
     }
   }, []);
-  const onChange = () => {
-    card.dueDate = dueDate;
+  const onChange = (e) => {
+    setDueDate(e.target.value);
+    card.dueDate = e.target.value;
   };
 
   return (
