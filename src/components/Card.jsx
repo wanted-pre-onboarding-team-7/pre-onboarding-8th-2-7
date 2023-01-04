@@ -47,7 +47,7 @@ const DivContent = styled.div`
   margin-top: 7px;
   height: 55px;
   padding: 3px;
-  background-color: white;
+  /* background-color: white; */
   border-radius: 8px;
 `;
 const DivDelBtn = styled.div`

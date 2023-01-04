@@ -20,7 +20,7 @@ export const kanbanBoard = {
       manager: '유서경',
     },
     {
-      id: 6,
+      id: 5,
       title: '팀프로젝트 회의',
       content: 'Best practice 찾기',
       dueDate: '2023-01-12T19:30',
