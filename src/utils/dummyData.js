@@ -17,12 +17,14 @@ export const kanbanBoard = {
       title: '팀프로젝트 회의',
       content: 'Best practice 찾기',
       dueDate: '2023-01-12T19:30',
+      manager: '김형욱',
     },
     {
       id: 6,
       title: '팀프로젝트 회의',
       content: 'Best practice 찾기',
       dueDate: '2023-01-12T19:30',
+      manager: '임수진',
     },
   ],
   [KANBAN_STATE.PROGRESS]: [
@@ -31,6 +33,7 @@ export const kanbanBoard = {
       title: '팀프로젝트 회의',
       content: 'Best practice 찾기',
       dueDate: '2023-01-12T19:30',
+      manager: '김수진',
     },
     {
       id: 2,
@@ -45,12 +48,14 @@ export const kanbanBoard = {
       title: '팀프로젝트 회의',
       content: 'Best practice 찾기',
       dueDate: '2023-01-12T19:30',
+      manager: '이수창',
     },
     {
       id: 4,
       title: '팀프로젝트 회의',
       content: 'Best practice 찾기',
       dueDate: '2023-01-12T19:30',
+      manager: '김형욱',
     },
   ],
 };
