@@ -6,16 +6,17 @@ import { useState } from 'react';
 import { theme } from '../theme.js';
 import { getCardsByStore, setCardsByStore } from '../store/cardStore.js';
 import { useRef } from 'react';
+import { useEffect } from 'react';
 
 const Home = () => {
-  const [cards, setCards] = useState([getCardsByStore('kanbanBoard')]);
-  const nextTd = useRef(0);
+  const [cards, setCards] = useState(getCardsByStore('kanbanBoard') || []);
+  const nextId = useRef(0);
   const clickCreateButton = () => {
-    nextTd.current += 1;
+    nextId.current += 1;
     setCards((card) => [
       ...card,
       {
-        id: nextTd.current,
+        id: nextId.current,
         title: '할일을 입력하세요',
         manager: '',
         status: 'todo',
@@ -23,8 +24,17 @@ const Home = () => {
         dueDate: '',
       },
     ]);
-  };
 
+    console.log(cards);
+    console.log(getCardsByStore('kanbanBoard'));
+  };
+  // 1. 왜 useState가 비동기 처리처럼 실행될까?
+  // 2. 왜 useRef 안먹지?
+  useEffect(() => {
+    setCardsByStore('kanbanBoard', cards);
+  }, [clickCreateButton]);
+
+  localStorage.clear();
   return (
     <>
       <KanBanHeader clickCreateButton={clickCreateButton} />
