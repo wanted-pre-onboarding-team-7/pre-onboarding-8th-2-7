@@ -6,22 +6,24 @@ import { issueListState } from '../store/atoms';
 import { KANBAN_STATE, BOARD_TITLE } from '../utils/constant';
 
 const INIT_VAL = {
-  id: 0,
+  id: Number(Date.now()),
   title: '',
   content: '',
   dueDate: '',
   manager: '',
 };
-const Modal = () => {
-  const [newIssue, setNewIssue] = useState(INIT_VAL);
+const Modal = ({ clickOpenModal, issueId, status }) => {
   const [issues, setIssues] = useRecoilState(issueListState);
-  // const issuesArr = issu;
 
+  const filterdIssue = issueId !== null &&
+    status && [...issues[status].filter((ele) => ele.id === issueId)];
+  const [issue, setIssue] = useState(filterdIssue[0] || INIT_VAL);
   const titleRef = useRef();
   const managerRef = useRef();
   const dueDateRef = useRef();
   const statusRef = useRef();
   const contentRef = useRef();
+  console.log('렌더링!', status);
 
   const clickAddIssue = (evt) => {
     evt.preventDefault();
@@ -34,10 +36,14 @@ const Modal = () => {
         manager: managerRef.current.value,
       };
       setIssues((prev) => {
-        const update = [...prev[statusRef.current.value], tmpIssue];
-        return { ...issues, [statusRef.current.value]: update };
+        const updateIssue = [...prev[statusRef.current.value], tmpIssue];
+        return { ...issues, [statusRef.current.value]: updateIssue };
       });
+      clickOpenModal();
     }
+  };
+  const clickCloseModal = () => {
+    clickOpenModal();
   };
 
   return (
@@ -46,11 +52,26 @@ const Modal = () => {
         <form onSubmit={clickAddIssue}>
           <DivInputWrapper>
             <div>제목</div>
-            <InputTitle type="text" required ref={titleRef} />
+            <InputTitle
+              type="text"
+              required
+              ref={titleRef}
+              defaultValue={issue.title}
+            />
             <div>담당자</div>
-            <InputTitle type="text" required ref={managerRef} />
+            <InputTitle
+              type="text"
+              required
+              ref={managerRef}
+              defaultValue={issue.manager}
+            />
             <div>마감일</div>
-            <InputTitle type="datetime-local" required ref={dueDateRef} />
+            <InputTitle
+              type="datetime-local"
+              required
+              ref={dueDateRef}
+              defaultValue={issue.dueDate}
+            />
             <div>상태</div>
             <Select name="status" ref={statusRef}>
               <option value={KANBAN_STATE.TODOS}>
@@ -65,8 +86,10 @@ const Modal = () => {
             </Select>
             <br />
             <div>내용</div>
-            <TextArea required ref={contentRef} />
-            <Button type="button">취소</Button>
+            <TextArea required ref={contentRef} defaultValue={issue.content} />
+            <Button type="button" onClick={clickCloseModal}>
+              취소
+            </Button>
             <Button type="submit" isSave={true}>
               저장
             </Button>

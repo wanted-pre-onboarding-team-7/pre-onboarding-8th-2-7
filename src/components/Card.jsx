@@ -1,23 +1,41 @@
 import styled from 'styled-components';
 
-const Card = ({ title, content, manager, id }) => {
+const Card = ({ title, content, manager, id, status, clickOpenModal }) => {
   return (
-    <DivCard>
-      <DivFlexWrapper>
-        <DivCardTitle>
-          {title}
-          <span>#{id}</span>
-        </DivCardTitle>
-        <DivDelBtn>
-          <div>x</div>
-        </DivDelBtn>
-      </DivFlexWrapper>
-      <DivManager>{manager}</DivManager>
-      <DivContent>{content}</DivContent>
-    </DivCard>
+    <>
+      <DivCard
+        onClick={() => {
+          clickOpenModal('read', id, status);
+        }}
+      >
+        <DivFlexWrapper>
+          <DivCardTitle>
+            {title}
+            <span>#{id}</span>
+          </DivCardTitle>
+          <DivDelBtn>
+            <div>x</div>
+          </DivDelBtn>
+        </DivFlexWrapper>
+        <DivManager>{manager}</DivManager>
+        <DivContent>{content}</DivContent>
+      </DivCard>
+    </>
   );
 };
 
+const DivOverlay = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
 const DivCard = styled.div`
   width: 100%;
   height: 130px;

@@ -4,7 +4,7 @@ import { issueListState } from '../store/atoms';
 import { KANBAN_STATE, BOARD_TITLE } from '../utils/constant';
 import Card from './Card';
 
-const Board = ({ status }) => {
+const Board = ({ status, clickOpenModal }) => {
   const datas = useRecoilValue(issueListState);
 
   return (
@@ -20,6 +20,8 @@ const Board = ({ status }) => {
           content={issue.content}
           manager={issue.manager}
           id={issue.id}
+          status={status}
+          clickOpenModal={clickOpenModal}
         />
       ))}
     </DivWrapper>

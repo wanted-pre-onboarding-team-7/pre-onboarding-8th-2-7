@@ -7,8 +7,12 @@ import { KANBAN_STATE } from '../utils/constant';
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const clickOpenModal = () => {
+  const [issueId, setIssueId] = useState('');
+  const [status, setStatus] = useState('');
+  const clickOpenModal = (mode, id, status) => {
     setIsModalOpen((prev) => !prev);
+    setIssueId(mode === 'read' ? id : '');
+    setStatus(mode === 'read' ? status : '');
   };
 
   return (
@@ -17,13 +21,17 @@ const Home = () => {
       {isModalOpen && (
         <>
           <DivOverlay onClick={clickOpenModal}></DivOverlay>
-          <Modal />
+          <Modal
+            clickOpenModal={clickOpenModal}
+            issueId={issueId}
+            status={status}
+          />
         </>
       )}
       <DivWrapper>
-        <Board status={KANBAN_STATE.TODOS}></Board>
-        <Board status={KANBAN_STATE.PROGRESS}></Board>
-        <Board status={KANBAN_STATE.DONE}></Board>
+        {Object.values(KANBAN_STATE).map((state, idx) => (
+          <Board key={idx} status={state} clickOpenModal={clickOpenModal} />
+        ))}
       </DivWrapper>
     </>
   );
