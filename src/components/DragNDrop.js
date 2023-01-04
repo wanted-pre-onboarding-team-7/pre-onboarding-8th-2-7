@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
+import AddBtn from './AddBtn';
 
-function DragNDrop({ data}) {
+function DragNDrop({ data }) {
   const [list, setList] = useState(data);
   const [dragging, setDragging] = useState(false);
 
@@ -13,7 +14,6 @@ function DragNDrop({ data}) {
   const dragNode = useRef();
 
   const handletDragStart = (e, item) => {
-    
     console.log('Starting to drag', item);
 
     dragItem.current = item;
@@ -24,48 +24,47 @@ function DragNDrop({ data}) {
     }, 0);
   };
   const handleDragEnter = (e, targetItem) => {
-    e.preventDefault()
+    e.preventDefault();
     console.log('Entering a drag target', targetItem);
     const currentItem = dragItem.current;
-    e.preventDefault()
+    e.preventDefault();
     if (dragNode.current !== e.target) {
       console.log('Target is NOT the same as dragged item');
       setList((oldList) => {
         let newList = JSON.parse(JSON.stringify(oldList));
-        newList[targetItem.grpI].items.splice(targetItem.itemI,0,
-          newList[currentItem.grpI].items.splice(
-            currentItem.itemI,
-            1,
-          )[0],
-         );
+        newList[targetItem.grpI].items.splice(
+          targetItem.itemI,
+          0,
+          newList[currentItem.grpI].items.splice(currentItem.itemI, 1)[0],
+        );
         dragItem.current = targetItem;
         localStorage.setItem('List', JSON.stringify(newList));
         return newList;
       });
-      e.preventDefault()
+      e.preventDefault();
     }
-    e.preventDefault()
+    e.preventDefault();
   };
-  const handleDragEnd = () => { 
+  const handleDragEnd = () => {
     console.log('Ending drag..');
     setDragging(false);
     // dragNode.current.removeEventListener('dragend', handleDragEnd);
     dragItem.current = null;
     dragNode.current = null;
   };
-//   const getStyles = (item) => {
-//     if (
-//       dragItem.current.grpI === item.grpI &&
-//       dragItem.current.itemI === item.itemI
-//     ) {
-//       return 'dnd-item';
-//     }
-//     return 'dnd-item';
-//   };
+  //   const getStyles = (item) => {
+  //     if (
+  //       dragItem.current.grpI === item.grpI &&
+  //       dragItem.current.itemI === item.itemI
+  //     ) {
+  //       return 'dnd-item';
+  //     }
+  //     return 'dnd-item';
+  //   };
 
   if (list) {
     return (
-      <div className="drag-n-drop" onDragOver={(e)=>e.preventDefault()}>
+      <div className="drag-n-drop" onDragOver={(e) => e.preventDefault()}>        
         {list.map((grp, grpI) => (
           <div
             key={grp.title}
@@ -76,22 +75,39 @@ function DragNDrop({ data}) {
                 : null
             }
           >
-            <div className="group-title"><DivCircle flag={grp.color}></DivCircle><div style={{marginLeft:"3px",marginTop:"3px"}}>{grp.title}</div></div>
+            <div className="group-title">
+              <DivCircle flag={grp.color}></DivCircle>
+              <div style={{ marginLeft: '3px', marginTop: '3px' }}>
+                {grp.title}
+              </div>
+            </div>
             {grp.items.map((item, itemI) => (
               <div
                 draggable
                 key={item.id}
                 onDragStart={(e) => handletDragStart(e, { grpI, itemI })}
                 onDragEnter={
-                  dragging? (e) => {handleDragEnter(e, { grpI, itemI });}: null
+                  dragging
+                    ? (e) => {
+                        handleDragEnter(e, { grpI, itemI });
+                      }
+                    : null
                 }
-                className={ 'dnd-item'}
+                className={'dnd-item'}
               >
-                <div style={{margin:"5px"}}>{item.title}</div>
-                <div style={{margin:"5px"}}>{item.manager}</div>
-                <div style={{margin:"5px"}}>{item.content}</div>
-                <div style={{display:"flex",justifyContent:"flex-end",textAlign:"right",marginRight:"10px"}}>
-                    {item.id}</div>
+                <div style={{ margin: '5px' }}>{item.title}</div>
+                <div style={{ margin: '5px' }}>{item.manager}</div>
+                <div style={{ margin: '5px' }}>{item.content}</div>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    textAlign: 'right',
+                    marginRight: '10px',
+                  }}
+                >
+                  {item.id}
+                </div>
               </div>
             ))}
           </div>
@@ -103,10 +119,10 @@ function DragNDrop({ data}) {
   }
 }
 const DivCircle = styled.div`
-width:20px;
-height:20px;
-border-radius:50%;
-background-color:${props=>props.flag};
-`
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: ${(props) => props.flag};
+`;
 
 export default DragNDrop;
