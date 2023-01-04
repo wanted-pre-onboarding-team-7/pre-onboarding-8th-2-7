@@ -1,37 +1,15 @@
-import React from 'react';
 import styled from 'styled-components';
 
-const Home = () => {
+const IssueItem = ({ data }) => {
   return (
     <LiIssueItem>
-      <strong>제목</strong>
-      <p>담당자</p>
-      <p>내용</p>
-      <p>고유번호</p>
+      <StrongTitle>{data.title}</StrongTitle>
+      <p>{data.manager}</p>
+      <p>{data.content}</p>
+      <DivDataId># {data.id}</DivDataId>
     </LiIssueItem>
   );
 };
-
-const Article = styled.article`
-  width: 900px;
-  margin: 0 auto;
-  border: 1px solid blue;
-`;
-
-const Nav = styled.div`
-  height: 30px;
-  text-align: right;
-`;
-
-const DivWrapper = styled.div`
-  display: flex;
-  border: 1px solid pink;
-`;
-
-const SectionPhase = styled.section`
-  margin: 10px;
-  /* border: 1px solid black; */
-`;
 
 const LiIssueItem = styled.li`
   /* border: 1px solid gray; */
@@ -47,4 +25,14 @@ const LiIssueItem = styled.li`
   }
 `;
 
-export default Home;
+const StrongTitle = styled.strong`
+  display: inline-block;
+  margin-bottom: 7px;
+  font-weight: 400;
+`;
+
+const DivDataId = styled.div`
+  text-align: right;
+`;
+
+export default IssueItem;

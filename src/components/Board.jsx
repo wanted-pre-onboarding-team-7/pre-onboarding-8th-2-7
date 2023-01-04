@@ -1,26 +1,18 @@
-import IssueItem from './IssueItem';
+import PhaseList from './PhaseList';
+import { kanbanBoard } from '../utils/dummyData';
 import styled from 'styled-components';
 
 const Container = () => {
+  console.log(kanbanBoard);
   return (
     <Article>
       <Nav>
         <button>새로 만들기</button>
       </Nav>
       <DivWrapper>
-        <SectionPhase>
-          <H2Phase>할 일</H2Phase>
-          <IssueItem />
-          <IssueItem />
-        </SectionPhase>
-        <SectionPhase>
-          <H2Phase>진행 중</H2Phase>
-          <IssueItem />
-        </SectionPhase>
-        <SectionPhase>
-          <H2Phase>완료</H2Phase>
-          <IssueItem />
-        </SectionPhase>
+        <PhaseList title="할 일" issue={kanbanBoard.done} />
+        <PhaseList title="진행 중" issue={kanbanBoard.progress} />
+        <PhaseList title="완료" issue={kanbanBoard.todos} />
       </DivWrapper>
     </Article>
   );
@@ -40,16 +32,6 @@ const Nav = styled.div`
 const DivWrapper = styled.div`
   display: flex;
   /* border: 1px solid pink; */
-`;
-
-const SectionPhase = styled.section`
-  margin: 10px;
-  /* border: 1px solid black; */
-`;
-
-const H2Phase = styled.h2`
-  margin-bottom: 6px;
-  font-weight: 500;
 `;
 
 export default Container;
