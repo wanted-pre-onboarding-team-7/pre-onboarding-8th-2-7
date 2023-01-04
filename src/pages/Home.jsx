@@ -3,13 +3,12 @@ import KanBanHeader from '../components/board/KanbanHeader.jsx';
 import CardList from '../components/board/CardList.jsx';
 import styled from 'styled-components';
 import { useState } from 'react';
-import { kanbanBoard } from '../utils/dummyData.js';
 import { theme } from '../theme.js';
+import { getCardsByStore, setCardsByStore } from '../store/cardStore.js';
 
 const Home = () => {
-  const [todoList, setTodoList] = useState(kanbanBoard.todos);
-  const [progressList, setProgressList] = useState(kanbanBoard.progress);
-  const [doneList, setDoneList] = useState(kanbanBoard.done);
+  const [cards, setCards] = useState([getCardsByStore('kanbanBoard')]);
+  console.log(cards);
 
   return (
     <>
@@ -18,14 +17,18 @@ const Home = () => {
         <CardList
           type={'할 일'}
           stateColor={theme.todosColor}
-          data={todoList}
+          data={cards.filter((card) => card.status === 'todo')}
         />
         <CardList
           type={'진행 중'}
           stateColor={theme.progressColor}
-          data={progressList}
+          data={cards.filter((card) => card.status === 'progress')}
         />
-        <CardList type={'완료'} stateColor={theme.doneColor} data={doneList} />
+        <CardList
+          type={'완료'}
+          stateColor={theme.doneColor}
+          data={cards.filter((card) => card.status === 'done')}
+        />
       </DivCardListContainer>
     </>
   );
