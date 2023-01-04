@@ -6,7 +6,9 @@ import CreateCard from './CreateCardBtn';
 const CardBtnUI = ({ kanbanState }) => {
   return (
     <CreateCard kanbanState={kanbanState}>
-      <Button bgColor={theme.background}>+ 새로 만들기</Button>
+      <Button bgColor={theme.background} textColor={theme.text}>
+        + 새로 만들기
+      </Button>
     </CreateCard>
   );
 };
@@ -17,4 +19,7 @@ const Button = styled.button`
   background-color: ${(props) => props.bgColor};
   margin-top: 20px;
   cursor: pointer;
+  color: ${(props) => props.textColor};
+  font-weight: 400;
+  font-size: 16px;
 `;
