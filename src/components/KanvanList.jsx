@@ -82,7 +82,7 @@ export default KanvanList;
 const DivListLayout = styled.div`
   display: flex;
   flex-direction: column;
-  border-right: 2px solid black;
+  /* border-right: 2px solid black; */
   margin-bottom: 250px;
 
   &:last-child {
