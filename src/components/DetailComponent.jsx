@@ -1,8 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { users } from '../utils/dummyData';
 import { KANBAN_ARR } from '../utils/constant';
-function DetailComponent({ setModal,data }) {
+function DetailComponent({ setModal,data,info }) {
+   const [form,setForm] = useState();
+  useEffect(()=>{
+     console.log(info)
+     if(info){
+        setTitle(info[0].title)
+        setDueDate(info[0].dueDate)
+        setContent(info[0].content)
+        setSituation([info[1],info[2]])
+     }
+
+  },[info])
   const [title, setTitle] = useState();
   const [manager, setManager] = useState();
   const [findManager,setFindManager] = useState([])
@@ -36,8 +47,34 @@ function DetailComponent({ setModal,data }) {
     setCheckSituation(false)
   }
   const onSubmit = () => {
-    if(title&&manager&&situation&&content) {
-        let newList = JSON.parse(JSON.stringify(data))
+    console.log(manager)
+    console.log(situation)
+    let newList = JSON.parse(JSON.stringify(data)) 
+    if(title&&situation&&content) {
+
+        if(info&&info[0].id){
+            for (let i = 0 ; i<newList.length; i++) {
+                console.log("반복문")
+                if(newList[i].title===situation[0]) {
+                      for(let j = 0 ; j<newList[i].items.length; j++){
+                        if (newList[i].items[j].id === info[0].id){
+                            newList[i].items[j].title=title
+                            newList[i].items[j].manager=manager ? manager : info[0].manager
+                            newList[i].items[j].dueDate=dueDate
+                            newList[i].items[j].content=content
+                            console.log(newList[i].items[j])
+                            break;
+                        }
+                      }
+                }
+            }
+            console.log("지나감")
+            localStorage.setItem('List',JSON.stringify(newList))
+            setModal(false)
+            return;
+        }
+    }
+    if(title&&situation&&content&&manager){
         for (let i = 0 ; i<newList.length; i++) {
             if(newList[i].title===situation[0]) {
                   newList[i].items.push({title,manager,content,dueDate,id:newList[0].items.length+newList[1].items.length+newList[2].items.length
@@ -51,12 +88,15 @@ function DetailComponent({ setModal,data }) {
     }
     else {
         window.alert("뭔가 빠졌습니다")
+        console.log(title);
+        console.log(manager);
+        console.log(dueDate);
+        console.log(situation);
+        console.log(content);
+        return;
     }
-    console.log(title);
-    console.log(manager);
-    console.log(dueDate);
-    console.log(situation);
-    console.log(content);
+
+    setModal(false)
   };
   return (
     <>
@@ -65,12 +105,12 @@ function DetailComponent({ setModal,data }) {
         <ModalInner tabIndex="0">
           <Flex>
             <div>제목</div>
-            <input type="text" value={title} onChange={onChangeTitle} />
+            <input type="text" defaultValue={info&&info[0].title} value={title} onChange={onChangeTitle} />
           </Flex>
           <Flex  onClick={onClickCheckManager}>
             <div>담당자</div>
-            <FlexColumn>
-            <input type="text" value={manager} onChange={onChangeManager} />
+            <FlexColumn> 
+            <input type="text" defaultValue={info&&info[0].manager} value={manager} onChange={onChangeManager} />
           {
                 checkManager&&findManager? findManager.map((el,index)=>{
                     return (
@@ -78,7 +118,7 @@ function DetailComponent({ setModal,data }) {
                             {el}
                         </div>
                     )
-                }) : ""
+                }) : (manager||info?"":"해당하는 담당자가 없습니다")
              }
              </FlexColumn>
           </Flex>
@@ -87,6 +127,7 @@ function DetailComponent({ setModal,data }) {
             <input
               type="datetime-local"
               value={dueDate}
+              defaultValue={info&&info[0].dueDate}
               onChange={onChangeDueDate}
             />
           </Flex>
@@ -94,7 +135,7 @@ function DetailComponent({ setModal,data }) {
             <div>상태</div>
             <FlexColumn>
             <DivSituation >
-            <FlexCenter><DivCircle flag={situation[1]}/>{situation[0]}</FlexCenter>
+                {<FlexCenter><DivCircle flag={situation[1]}/>{situation[0]}</FlexCenter>}
             </DivSituation>
             {checkSituation ? (
               KANBAN_ARR.map((el,index)=>{
@@ -108,7 +149,7 @@ function DetailComponent({ setModal,data }) {
           </Flex>
           <Flex>
             <div>내용</div>
-            <textarea value={content} onChange={onChangeContent} />
+            <textarea defaultValue={info&&info[0].content} value={content} onChange={onChangeContent} />
           </Flex>
           <Flex>
             <div onClick={() => setModal(false)}>취소</div>
