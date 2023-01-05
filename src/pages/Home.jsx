@@ -10,6 +10,7 @@ import { isObjectHasKey } from '../utils/utilFn';
 
 const Home = () => {
   const modalData = useRecoilValue(modalState);
+
   return (
     <DivWrapper>
       <DivKanbanWrapper bgColor={theme.background}>
@@ -17,6 +18,7 @@ const Home = () => {
         <KanbanBoard />
       </DivKanbanWrapper>
       {isObjectHasKey(modalData) && <Modal />}
+      {/* <DivLoading>로딩중</DivLoading> */}
     </DivWrapper>
   );
 };
@@ -34,4 +36,16 @@ const DivKanbanWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+`;
+const DivLoading = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
 `;

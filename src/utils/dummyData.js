@@ -25,7 +25,7 @@ export const DUMMY_KANBAN = {
       content:
         'Clean Code와 소프트웨어를 유연하고 확장성있게 만드는 법. (Clena Code / SRP / DIP / 횡단 관심사 / Custom Hook / Context API)',
       dueDate: '2023-01-12T19:30',
-      manager: '유서경',
+      manager: '이수창',
     },
   ],
   [KANBAN_STATE.PROGRESS]: [
@@ -34,30 +34,30 @@ export const DUMMY_KANBAN = {
       title: '배포',
       content: 'GitHub Actions 사용하여 CD 구축하기',
       dueDate: '2023-01-13T19:30',
-      manager: '유서경',
+      manager: '경지윤',
     },
     {
       id: 2,
-      title: '팀프로젝트 회의',
+      title: '팀 스터디',
       content: 'Best practice 찾기',
       dueDate: '2023-01-12T19:30',
-      manager: '유서경',
+      manager: '김수진',
     },
   ],
   [KANBAN_STATE.DONE]: [
     {
       id: 3,
-      title: '팀프로젝트 회의',
+      title: '1 주차 미션 회고',
       content: 'Best practice 찾기',
       dueDate: '2023-01-12T19:30',
-      manager: '유서경',
+      manager: '임수진',
     },
     {
       id: 4,
-      title: '팀프로젝트 회의',
+      title: '새로운 미션 구현 사항 정리하기',
       content: 'Best practice 찾기',
       dueDate: '2023-01-12T19:30',
-      manager: '유서경',
+      manager: '차지환',
     },
   ],
 };

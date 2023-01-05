@@ -1,3 +1,5 @@
+import { Card } from '../class/card';
+
 export const isObjectHasKey = (obj) => {
   if (typeof obj === 'string') {
     return false;
@@ -24,7 +26,7 @@ export const getFormattedToday = () => {
   }:${formattedDates[3]}`;
 };
 
-export const createCard = (prevCards, card) => {
+export const createCard = async (prevCards, card) => {
   const newCards = prevCards;
   newCards.push(card.objectExceptState);
   return newCards;
@@ -40,9 +42,16 @@ export const updateCard = (prevCards, card) => {
   return newCards;
 };
 
-export const deleteCard = (prevCards, clickedId) => {
+export const deleteCard = async (prevCards, clickedId) => {
   const newCards = prevCards.filter(
     (storedCard) => String(storedCard.id) !== String(clickedId),
   );
   return newCards;
+};
+
+export const getCardById = (cards, id) => {
+  const result = cards.filter(
+    (storedCard) => String(storedCard.id) === String(id),
+  );
+  return Card.createCard(...result);
 };

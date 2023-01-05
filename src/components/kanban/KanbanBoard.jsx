@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import KanbanColumn from './KanbanColumn';
 import { KANBAN_COLS } from '../../utils/constant';
+
 const KanbanBoard = () => {
   return (
     <DivColsWrapper>
@@ -14,6 +15,7 @@ const KanbanBoard = () => {
 export default KanbanBoard;
 
 const DivColsWrapper = styled.div`
+  position: relative;
   height: 80vh;
   display: grid;
   grid-template-columns: repeat(3, 1fr);

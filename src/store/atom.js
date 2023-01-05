@@ -10,6 +10,15 @@ import {
   postLocalStorageKanban,
 } from '../utils/localStorgeFn';
 
+export const dragState = atom({
+  key: 'DragState',
+  default: {},
+});
+export const dragOverState = atom({
+  key: 'DragOverState',
+  default: {},
+});
+
 export const modalState = atom({
   key: 'ModalState',
   default: {},

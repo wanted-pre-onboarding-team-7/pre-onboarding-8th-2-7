@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { modalState } from '../../store/atom';
@@ -12,7 +12,7 @@ const Card = ({ item, kanbanState }) => {
   };
 
   return (
-    <DivWrapper>
+    <DivWrapper id={item.id}>
       <DivCard
         onClick={clickCard}
         borderColor={theme.border}
