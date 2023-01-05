@@ -20,9 +20,11 @@ const KanbanItem = ({
       };
     });
   };
+
   const clickKanbanItem = ({ id, title, content, dueDate, manager }) => {
     clickKanban({ id, title, content, dueDate, manager });
   };
+
   return (
     <ItemContainer
       onClick={() => clickKanbanItem({ id, title, content, dueDate, manager })}

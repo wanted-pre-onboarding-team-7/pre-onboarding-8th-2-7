@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 const Kanban = ({ status, items, setKanban, clickKanban }) => {
   const clickKanbanItem = (item) => clickKanban(item, status);
+
   return (
     <KanbanContainer>
       <h3>{status}</h3>

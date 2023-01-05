@@ -6,10 +6,10 @@ import { kanbanBoard } from '../../utils/dummyData';
 import styled from 'styled-components';
 
 const KanbanContainer = () => {
+  const [kanban, setKanban] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalKanbanItem, setModalKanbanItem] = useState({});
   const [modalKanbanStatus, setModalKanbanStatus] = useState('');
-  const [kanban, setKanban] = useState({});
 
   useEffect(() => {
     setKanban(kanbanBoard);
@@ -21,12 +21,6 @@ const KanbanContainer = () => {
     setIsModalOpen((isModalOpen) => !isModalOpen);
   };
 
-  const changeModalStatus = () => {
-    setModalKanbanItem({});
-    setModalKanbanStatus('');
-    setIsModalOpen((isModalOpen) => !isModalOpen);
-  };
-
   const editNewKanbanItem = (status, kanbanItem) => {
     const newKanbanStatus = [...kanban[status]].map((v) => {
       const { id } = v;
@@ -35,10 +29,17 @@ const KanbanContainer = () => {
     setKanban((kanban) => ({ ...kanban, [status]: newKanbanStatus }));
     changeModalStatus();
   };
+
   const addNewKanbanItem = (status, kanbanItem) => {
     const newKanbanStatus = [...kanban[status], kanbanItem];
     setKanban((kanban) => ({ ...kanban, [status]: newKanbanStatus }));
     changeModalStatus();
+  };
+
+  const changeModalStatus = () => {
+    setModalKanbanItem({});
+    setModalKanbanStatus('');
+    setIsModalOpen((isModalOpen) => !isModalOpen);
   };
 
   return (
