@@ -68,10 +68,10 @@ const Modal = () => {
           <ModalStateInput card={card} />
         </ModalRow>
         <ModalContent card={card} />
-        <div>
-          <button onClick={clickCancelBtn}>취소</button>
-          <button onClick={clickSaveBtn}>저장</button>
-        </div>
+        <DivBtn>
+          <Button onClick={clickCancelBtn}>취소</Button>
+          <Button onClick={clickSaveBtn}>저장</Button>
+        </DivBtn>
       </Form>
 
       {/* Dropdown selector */}
@@ -100,4 +100,15 @@ const Form = styled.form`
   background-color: ${(props) => props.bgColor};
   border-radius: 5px;
   box-shadow: 0.5px 0.5px 10px rgba(0, 0, 0, 0.3);
+`;
+
+const DivBtn = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+`;
+const Button = styled.button`
+  border: none;
+  padding: 20px;
+  border-radius: 10px;
 `;

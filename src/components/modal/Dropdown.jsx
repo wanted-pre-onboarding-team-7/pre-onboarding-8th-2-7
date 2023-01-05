@@ -13,7 +13,7 @@ const Dropdown = ({ items, setValue }) => {
         <DivItem
           id={item}
           key={item}
-          bgColor={theme.background}
+          bgColor={theme.border}
           onClick={clickItem}
         >
           {item}
@@ -33,5 +33,7 @@ const DivItem = styled.div`
   color: ${(props) => props.textColor};
   background-color: ${(props) => props.bgColor};
   padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
   font-weight: 400;
 `;
