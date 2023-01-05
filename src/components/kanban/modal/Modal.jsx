@@ -82,6 +82,7 @@ const Modal = ({
           changeInputValue={changeInputValue}
           checkEnter={checkEnter}
           chargeRef={chargeRef}
+          manager={manager}
         ></Charge>
         <EndDate>
           마감일: <input type="datetime-local" ref={dueDateRef} />
