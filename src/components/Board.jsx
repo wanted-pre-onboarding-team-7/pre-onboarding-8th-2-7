@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import PhaseList from './PhaseList';
-import { kanbanBoard } from '../utils/dummyData';
+// import { kanbanBoard } from '../utils/dummyData';
 import styled from 'styled-components';
 
 const Board = () => {
+  const location = useLocation();
   //   console.log('kanbanBoard', kanbanBoard);
   const [todos, setTodos] = useState([]);
   const [progress, setProgress] = useState([]);
@@ -23,7 +25,9 @@ const Board = () => {
   return (
     <Article>
       <Nav>
-        <button>새로 만들기</button>
+        <Link to="/modal" state={{ background: location }}>
+          <button>새로 만들기</button> <Outlet />
+        </Link>
       </Nav>
       <DivWrapper>
         <PhaseList title="할 일" issue={todos} phase="todos" />
