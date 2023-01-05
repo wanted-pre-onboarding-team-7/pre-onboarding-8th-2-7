@@ -27,7 +27,14 @@ const KanbanContainer = () => {
     setIsModalOpen((isModalOpen) => !isModalOpen);
   };
 
-  const editNewKanbanItem = (status, kanbanItem) => {};
+  const editNewKanbanItem = (status, kanbanItem) => {
+    const newKanbanStatus = [...kanban[status]].map((v) => {
+      const { id } = v;
+      return id === kanbanItem.id ? kanbanItem : v;
+    });
+    setKanban((kanban) => ({ ...kanban, [status]: newKanbanStatus }));
+    changeModalStatus();
+  };
   const addNewKanbanItem = (status, kanbanItem) => {
     const newKanbanStatus = [...kanban[status], kanbanItem];
     setKanban((kanban) => ({ ...kanban, [status]: newKanbanStatus }));
