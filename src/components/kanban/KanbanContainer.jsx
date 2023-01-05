@@ -27,6 +27,13 @@ const KanbanContainer = () => {
     setIsModalOpen((isModalOpen) => !isModalOpen);
   };
 
+  const editNewKanbanItem = (status, kanbanItem) => {};
+  const addNewKanbanItem = (status, kanbanItem) => {
+    const newKanbanStatus = [...kanban[status], kanbanItem];
+    setKanban((kanban) => ({ ...kanban, [status]: newKanbanStatus }));
+    changeModalStatus();
+  };
+
   return (
     <>
       {isModalOpen && (
@@ -35,6 +42,8 @@ const KanbanContainer = () => {
           modalKanbanItem={modalKanbanItem}
           modalKanbanStatus={modalKanbanStatus}
           cancelKanban={changeModalStatus}
+          editNewKanbanItem={editNewKanbanItem}
+          addNewKanbanItem={addNewKanbanItem}
         />
       )}
       <button onClick={changeModalStatus}>새로 만들기</button>

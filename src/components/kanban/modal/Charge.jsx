@@ -1,10 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Charge = ({ searchArr, changeInputValue }) => {
+const Charge = ({ searchArr, changeInputValue, checkEnter, chargeRef }) => {
   return (
     <div>
-      <Input type="text" onChange={changeInputValue} />
+      <Input
+        type="text"
+        onChange={changeInputValue}
+        onKeyUp={checkEnter}
+        ref={chargeRef}
+      />
       <Ul>
         {searchArr.map((v) => (
           <Li>{v}</Li>

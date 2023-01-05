@@ -10,10 +10,15 @@ const Modal = ({
   modalKanbanStatus,
   kanbanKeys,
   cancelKanban,
+  editNewKanbanItem,
+  addNewKanbanItem,
 }) => {
-  const { id, title, content, dueDate, manager } = modalKanbanItem;
+  const { id: beforeId, title, content, dueDate, manager } = modalKanbanItem;
   const titleRef = useRef();
+  const chargeRef = useRef();
   const dueDateRef = useRef();
+  const stateRef = useRef();
+  const contentRef = useRef();
 
   const [searchArr, setSearchArr] = useState([]);
 
@@ -30,6 +35,40 @@ const Modal = ({
     );
   };
 
+  const checkEnter = ({ key }) => {
+    if (key === 'Enter') {
+      setSearchArr([]);
+    }
+  };
+
+  const submitKanban = () => {
+    beforeId ? editKanban() : addNewKanban();
+  };
+
+  const editKanban = () => {
+    const kanban = {
+      id: beforeId,
+      title: titleRef.current.value,
+      content: contentRef.current.value,
+      dueDate: dueDateRef.current.value,
+      manager: chargeRef.current.value,
+    };
+    const state = stateRef.current[stateRef.current.selectedIndex].value;
+    editNewKanbanItem(state, kanban);
+  };
+  const addNewKanban = () => {
+    //FIXME: id 다음값으로 새로 생성
+    const kanban = {
+      id: beforeId + 1,
+      title: titleRef.current.value,
+      content: contentRef.current.value,
+      dueDate: dueDateRef.current.value,
+      manager: chargeRef.current.value,
+    };
+    const state = stateRef.current[stateRef.current.selectedIndex].value;
+    addNewKanbanItem(state, kanban);
+  };
+
   return (
     <>
       <ModalSide></ModalSide>
@@ -41,13 +80,15 @@ const Modal = ({
         <Charge
           searchArr={searchArr}
           changeInputValue={changeInputValue}
+          checkEnter={checkEnter}
+          chargeRef={chargeRef}
         ></Charge>
         <EndDate>
           마감일: <input type="datetime-local" ref={dueDateRef} />
         </EndDate>
         <Status>
           상태:
-          <select>
+          <select ref={stateRef}>
             {kanbanKeys.map((kanbanKey) => (
               <option
                 key={kanbanKey}
@@ -59,11 +100,11 @@ const Modal = ({
           </select>
         </Status>
         <Content>
-          내용: <textarea>{content}</textarea>
+          내용: <textarea ref={contentRef}>{content}</textarea>
         </Content>
         <ButtonContainer>
           <CancelBtn onClick={cancelKanban}>취소</CancelBtn>
-          <SubmitBtn>저장</SubmitBtn>
+          <SubmitBtn onClick={submitKanban}>저장</SubmitBtn>
         </ButtonContainer>
       </ModalContent>
     </>
