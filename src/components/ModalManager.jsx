@@ -12,18 +12,20 @@ const ModalManager = ({ managerRef, issueValue }) => {
     // isActiveInput 으로 추가사용
     updateKeywordList();
   }, [keyword]);
-
   const changeManager = (e) => {
     setKeyword(e.currentTarget.value);
     setIsActiveInput(true);
+  };
+  const blurResetSearch = () => {
+    setKeywordList([]);
+    setIsActiveInput(false);
   };
   const updateKeywordList = () => {
     const filteredKeyword = users.filter((ele) => ele.includes(keyword));
     setKeywordList(filteredKeyword);
   };
   const clickKeyword = (ele) => {
-    setKeywordList([]);
-    setIsActiveInput(false);
+    blurResetSearch();
     setKeyword(ele);
   };
 
@@ -32,6 +34,7 @@ const ModalManager = ({ managerRef, issueValue }) => {
       <div className="label">담당자</div>
       <Input
         onChange={changeManager}
+        onBlur={blurResetSearch}
         type="text"
         required
         ref={managerRef}
