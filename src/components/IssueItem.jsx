@@ -1,8 +1,15 @@
+import axios from 'axios';
 import styled from 'styled-components';
 
-const IssueItem = ({ data }) => {
+const IssueItem = ({ data, phase }) => {
+  const clickDeleteIssue = () => {
+    axios.delete(`http://localhost:3001/${phase}/${data.id}`);
+    window.location.reload();
+  };
+
   return (
     <LiIssueItem>
+      <ButtonDelete onClick={clickDeleteIssue}>삭제</ButtonDelete>
       <StrongTitle>{data.title}</StrongTitle>
       <p>{data.manager}</p>
       <p>{data.content}</p>
@@ -13,6 +20,7 @@ const IssueItem = ({ data }) => {
 
 const LiIssueItem = styled.li`
   /* border: 1px solid gray; */
+  position: relative;
   min-width: 280px;
   padding: 10px;
   margin-bottom: 10px;
@@ -20,9 +28,20 @@ const LiIssueItem = styled.li`
   box-shadow: rgb(15 15 15 / 10%) 0px 0px 0px 1px,
     rgb(15 15 15 / 10%) 0px 2px 4px;
   &:hover {
-    background-color: #f6f8fa;
+    background-color: #dfe1e3b6;
     cursor: pointer;
   }
+`;
+
+const ButtonDelete = styled.button.attrs({ type: 'button' })`
+  position: absolute;
+  top: 10px;
+  right: 8px;
+  color: #ffffff;
+  font-weight: 400;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
 `;
 
 const StrongTitle = styled.strong`

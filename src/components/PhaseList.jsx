@@ -1,13 +1,13 @@
 import IssueItem from './IssueItem';
 import styled from 'styled-components';
 
-const PhaseList = ({ title, issue }) => {
+const PhaseList = ({ title, issue, phase }) => {
   return (
     <SectionPhase>
       <H2Phase>{title}</H2Phase>
       <ul>
-        {issue.map((issue) => {
-          return <IssueItem key={issue.id} data={issue} />;
+        {issue?.map((issue) => {
+          return <IssueItem key={issue.id} data={issue} phase={phase} />;
         })}
       </ul>
     </SectionPhase>
