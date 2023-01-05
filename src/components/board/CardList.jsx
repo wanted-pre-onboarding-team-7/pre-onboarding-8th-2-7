@@ -4,17 +4,16 @@ import { getCardsByStore, setCardsByStore } from '../../store/cardStore';
 
 const CardList = ({ type, stateColor, status, setCards, data, clickCard }) => {
   const cards = getCardsByStore('kanbanBoard');
-
   // delete
   const clickDeleteButton = (id) => {
     const result = {
       ...cards,
       [status]: data.filter((prev) => prev.id !== id),
     };
-    console.log(result);
     setCards(result);
     setCardsByStore('kanbanBoard', result);
   };
+
   return (
     <DivContainer>
       <DivListHeader>
@@ -28,6 +27,7 @@ const CardList = ({ type, stateColor, status, setCards, data, clickCard }) => {
           clickCard={clickCard}
           setCards={setCards}
           clickDeleteButton={clickDeleteButton}
+          status={status}
         />
       ))}
     </DivContainer>

@@ -1,27 +1,52 @@
 import styled from 'styled-components';
+import Modal from '../card/Modal';
+import { useState } from 'react';
 
 const Card = ({
   id,
   title,
   manager,
+  dueDate,
   clickDeleteButton,
   content,
-  clickCard,
+  setCards,
+  status,
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const clickCard = () => {
+    setIsOpen(true);
+  };
+
   return (
-    <DivContainer>
-      <div onClick={() => clickCard()}>
-        {title}
-        <div>담당자: {manager}</div>
-        <div>{content}</div>
-      </div>
-      <DivSideContainer>
-        <BtnDeleteButton onClick={() => clickDeleteButton(id)}>
-          X
-        </BtnDeleteButton>
-        <div>{id}</div>
-      </DivSideContainer>
-    </DivContainer>
+    <>
+      <DivContainer>
+        <div onClick={clickCard}>
+          {title}
+          <div>담당자: {manager}</div>
+          <div>{content}</div>
+        </div>
+        <DivSideContainer>
+          <BtnDeleteButton onClick={() => clickDeleteButton(id)}>
+            X
+          </BtnDeleteButton>
+          <div>{id}</div>
+        </DivSideContainer>
+      </DivContainer>
+      {isOpen && (
+        <Modal
+          id={id}
+          content={content}
+          setCards={setCards}
+          status={status}
+          manager={manager}
+          setIsOpen={setIsOpen}
+          dueDate={dueDate}
+          onClose={() => {
+            setIsOpen(false);
+          }}
+        />
+      )}
+    </>
   );
 };
 
