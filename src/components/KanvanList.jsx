@@ -1,8 +1,47 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import KanvanCard from './KanvanCard';
+import { useRecoilState } from 'recoil';
+import { cardState } from '../store';
 
-const KanvanList = ({ name, data }) => {
+const KanvanList = ({ name, stateName }) => {
+  const [kanvanCards, setKanvanCards] = useRecoilState(cardState);
+
+  const handleAdd = useCallback(() => {
+    const initialTemplate = {
+      id: new Date().getTime(),
+      title: '',
+      content: '',
+      dueDate: '',
+      status: stateName,
+      author: [],
+    };
+
+    setKanvanCards((prev) => ({
+      ...prev,
+      [stateName]: [...prev[stateName], initialTemplate],
+    }));
+  }, [stateName, setKanvanCards]);
+
+  const handleRemove = useCallback(
+    (cardId) => {
+      setKanvanCards((prev) => ({
+        ...prev,
+        [stateName]: prev[stateName].filter(({ id }) => id !== cardId),
+      }));
+    },
+    [stateName, setKanvanCards],
+  );
+
+  const handleUpdateTitle = useCallback((cardId, title) => {
+    setKanvanCards((prev) => ({
+      ...prev,
+      [stateName]: prev[stateName].map((card) =>
+        card.id === cardId ? { ...card, title } : card,
+      ),
+    }));
+  });
+
   return (
     <DivListLayout>
       <DivStatusWrapper>
@@ -13,10 +52,16 @@ const KanvanList = ({ name, data }) => {
       </DivStatusWrapper>
       <DivListWrapper>
         <UlListArea>
-          {data.map((card) => (
-            <KanvanCard key={card.id} {...card} />
+          {kanvanCards[stateName].map((card) => (
+            <KanvanCard
+              key={card.id}
+              {...card}
+              onRemove={handleRemove}
+              onUpdate={handleUpdateTitle}
+            />
           ))}
         </UlListArea>
+        <ButtonAdd onClick={handleAdd}>+ 새로 만들기</ButtonAdd>
       </DivListWrapper>
     </DivListLayout>
   );
@@ -28,6 +73,7 @@ const DivListLayout = styled.div`
   display: flex;
   flex-direction: column;
   border-right: 2px solid black;
+  margin-bottom: 250px;
 
   &:last-child {
     border-right: none;
@@ -38,7 +84,6 @@ const DivStatusWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  height: 15%;
   padding: 20px;
 `;
 
@@ -52,10 +97,33 @@ const H2ListStatus = styled.h2`
   font-size: 15px;
 `;
 
-const DivListWrapper = styled.div``;
+const DivListWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const UlListArea = styled.ul`
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  align-items: center;
+  width: 100%;
+  padding: 20px 10px 0 10px;
+`;
+
+const ButtonAdd = styled.button`
+  font-size: 15px;
+  background: none;
+  background-color: transparent;
+  width: 85%;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: rgba(51, 51, 51, 0.4);
+  height: 2rem;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: rgba(51, 51, 51, 0.1);
+  }
 `;
