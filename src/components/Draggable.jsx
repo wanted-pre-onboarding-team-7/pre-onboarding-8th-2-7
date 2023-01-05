@@ -38,21 +38,18 @@ const Draggable = ({ id, kanbanState, children }) => {
     setDragOverItem({ state: enterState, id: e.currentTarget.id });
   };
 
-  const updateSameState = async () => {
+  const updateSameState = () => {
     const selectedCard = getCardById(cardsArr[dragItem.state], dragItem.id);
-    const deletedArr = await deleteCard(cardsArr[dragItem.state], dragItem.id);
-    const newDragCards = await createCard(deletedArr, selectedCard);
+    const deletedArr = deleteCard(cardsArr[dragItem.state], dragItem.id);
+    const newDragCards = createCard(deletedArr, selectedCard);
 
     setCardsArr[dragItem.state](newDragCards);
   };
 
-  const updateDiffState = async () => {
+  const updateDiffState = () => {
     const selectedCard = getCardById(cardsArr[dragItem.state], dragItem.id);
-    const newDragCards = await deleteCard(
-      cardsArr[dragItem.state],
-      dragItem.id,
-    );
-    const newDragOverCards = await createCard(
+    const newDragCards = deleteCard(cardsArr[dragItem.state], dragItem.id);
+    const newDragOverCards = createCard(
       cardsArr[dragOverItem.state],
       selectedCard,
     );

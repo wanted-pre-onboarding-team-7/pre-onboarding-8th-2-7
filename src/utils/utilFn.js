@@ -26,7 +26,7 @@ export const getFormattedToday = () => {
   }:${formattedDates[3]}`;
 };
 
-export const createCard = async (prevCards, card) => {
+export const createCard = (prevCards, card) => {
   const newCards = prevCards;
   newCards.push(card.objectExceptState);
   return newCards;
@@ -42,7 +42,7 @@ export const updateCard = (prevCards, card) => {
   return newCards;
 };
 
-export const deleteCard = async (prevCards, clickedId) => {
+export const deleteCard = (prevCards, clickedId) => {
   const newCards = prevCards.filter(
     (storedCard) => String(storedCard.id) !== String(clickedId),
   );

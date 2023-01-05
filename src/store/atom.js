@@ -1,5 +1,4 @@
-import { atom, atomFamily, selector, selectorFamily } from 'recoil';
-import { Card } from '../class/card';
+import { atom, selector } from 'recoil';
 import { KANBAN_STATE } from '../utils/constant';
 import { DUMMY_KANBAN } from '../utils/dummyData';
 import {
