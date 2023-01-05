@@ -1,20 +1,29 @@
+import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 
 const IssueItem = ({ data, phase }) => {
+  const location = useLocation();
+
   const clickDeleteIssue = () => {
     axios.delete(`http://localhost:3001/${phase}/${data.id}`);
     window.location.reload();
   };
-
+  {
+    /* <Link to="/modal" state={{ background: location }}>
+          <button>새로 만들기</button> <Outlet />
+        </Link> */
+  }
   return (
-    <LiIssueItem>
-      <ButtonDelete onClick={clickDeleteIssue}>삭제</ButtonDelete>
-      <StrongTitle>{data.title}</StrongTitle>
-      <p>{data.manager}</p>
-      <p>{data.content}</p>
-      <DivDataId># {data.id}</DivDataId>
-    </LiIssueItem>
+    <Link to="/modal" state={{ background: location }}>
+      <LiIssueItem>
+        <ButtonDelete onClick={clickDeleteIssue}>삭제</ButtonDelete>
+        <StrongTitle>{data.title}</StrongTitle>
+        <p>{data.manager}</p>
+        <p>{data.content}</p>
+        <DivDataId># {data.id}</DivDataId>
+      </LiIssueItem>
+    </Link>
   );
 };
 

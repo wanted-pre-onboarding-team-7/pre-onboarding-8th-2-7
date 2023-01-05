@@ -2,11 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
+import Manager from './Manager';
 
 const Modal = () => {
   const titleRef = useRef(null);
   const contentRef = useRef(null);
   const phaseRef = useRef(null);
+  const dueDateRef = useRef(null);
 
   const clickPostIssue = async () => {
     const response = await axios.post(
@@ -14,6 +16,7 @@ const Modal = () => {
       {
         title: titleRef.current?.value,
         content: contentRef.current?.value,
+        dueDate: dueDateRef.current?.value,
       },
     );
     if (response.status === 201) window.location.replace('/');
@@ -29,11 +32,11 @@ const Modal = () => {
           </div>
           <div>
             <Label htmlFor="">담당자</Label>
-            <input type="text"></input>
+            <Manager />
           </div>
           <div>
             <Label htmlFor="">마감일</Label>
-            <input type="datetime-local"></input>
+            <input type="datetime-local" ref={dueDateRef}></input>
           </div>
           <div>
             <Label htmlFor="">상태</Label>
