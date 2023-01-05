@@ -1,15 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import KanbanBoard from '../components/kanban/KanbanBoard';
 import KanbanHeader from '../components/kanban/KanbanHeader';
 import Modal from '../components/modal/Modal';
-import { modalState } from '../store/atom';
+import { kanbanCardsState, modalState } from '../store/atom';
 import { theme } from '../theme';
+import { KANBAN_STATE } from '../utils/constant';
 import { isObjectHasKey } from '../utils/utilFn';
 
 const Home = () => {
   const modalData = useRecoilValue(modalState);
+  const todos = useRecoilValue(kanbanCardsState[KANBAN_STATE.TODOS]);
+  const progress = useRecoilValue(kanbanCardsState[KANBAN_STATE.PROGRESS]);
+  const done = useRecoilValue(kanbanCardsState[KANBAN_STATE.DONE]);
+
+  const [isKanbanChanged, setIsKanbanChanged] = useState(false);
+  useEffect(() => {
+    const tick = () => {
+      return setTimeout(() => setIsKanbanChanged(false), 500);
+    };
+    setIsKanbanChanged(true);
+    tick();
+    return () => clearTimeout(tick);
+  }, [todos, progress, done]);
 
   return (
     <DivWrapper>
@@ -18,7 +32,7 @@ const Home = () => {
         <KanbanBoard />
       </DivKanbanWrapper>
       {isObjectHasKey(modalData) && <Modal />}
-      {/* <DivLoading>로딩중</DivLoading> */}
+      {isKanbanChanged && <DivLoading>로딩중</DivLoading>}
     </DivWrapper>
   );
 };

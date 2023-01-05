@@ -27,6 +27,7 @@ const Draggable = ({ id, kanbanState, children }) => {
     progress: setProgress,
     done: setDone,
   };
+
   const dragStart = (e) => {
     e.stopPropagation();
     setDragItem({ state: kanbanState, id: e.target.id });
