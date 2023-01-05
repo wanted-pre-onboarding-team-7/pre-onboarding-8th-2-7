@@ -3,7 +3,12 @@ import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { dragOverState, dragState, kanbanCardsState } from '../store/atom';
 import { KANBAN_STATE } from '../utils/constant';
-import { createCard, deleteCard, getCardById } from '../utils/utilFn';
+import {
+  createCard,
+  deleteCard,
+  getCardById,
+  updateNewCard,
+} from '../utils/utilFn';
 
 const Draggable = ({ id, kanbanState, children }) => {
   const [dragItem, setDragItem] = useRecoilState(dragState);
@@ -50,8 +55,9 @@ const Draggable = ({ id, kanbanState, children }) => {
   const updateDiffState = () => {
     const selectedCard = getCardById(cardsArr[dragItem.state], dragItem.id);
     const newDragCards = deleteCard(cardsArr[dragItem.state], dragItem.id);
-    const newDragOverCards = createCard(
+    const newDragOverCards = updateNewCard(
       cardsArr[dragOverItem.state],
+      dragOverItem.id,
       selectedCard,
     );
 
