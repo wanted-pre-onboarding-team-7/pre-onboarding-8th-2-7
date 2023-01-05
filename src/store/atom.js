@@ -1,13 +1,10 @@
 import { atom, selector } from 'recoil';
-import { KANBAN_STATE } from '../utils/constant';
+
 import { DUMMY_KANBAN } from '../utils/dummyData';
-import {
-  getLocalStorageKanban,
-  isKanbanEmpty,
-  postDummyData,
-  postLocalStorageId,
-  postLocalStorageKanban,
-} from '../utils/localStorgeFn';
+import { KANBAN_STATE } from '../utils/constant';
+import { recoilPersist } from 'recoil-persist';
+
+const { persistAtom } = recoilPersist();
 
 export const dragState = atom({
   key: 'DragState',
@@ -34,38 +31,20 @@ export const modalCardSelector = selector({
   },
 });
 
-const localStorageEffect =
-  (key) =>
-  ({ setSelf, onSet }) => {
-    if (isKanbanEmpty()) {
-      postDummyData();
-      postLocalStorageId(6);
-    }
-    const savedValue = getLocalStorageKanban(key);
-
-    setSelf(savedValue);
-
-    onSet((newValue, _, isReset) => {
-      isReset
-        ? localStorage.removeItem(key)
-        : postLocalStorageKanban(key, newValue);
-    });
-  };
-
 const todoCardsState = atom({
   key: 'TodoCards',
   default: DUMMY_KANBAN[KANBAN_STATE.TODOS], //array
-  effects: [localStorageEffect(KANBAN_STATE.TODOS)],
+  effects: [persistAtom],
 });
 const progressCardsState = atom({
   key: 'ProgressCards',
   default: DUMMY_KANBAN[KANBAN_STATE.PROGRESS], //array
-  effects: [localStorageEffect(KANBAN_STATE.PROGRESS)],
+  effects: [persistAtom],
 });
 const doneCardsState = atom({
   key: 'DoneCards',
   default: DUMMY_KANBAN[KANBAN_STATE.DONE], //array
-  effects: [localStorageEffect(KANBAN_STATE.DONE)],
+  effects: [persistAtom],
 });
 
 export const kanbanCardsState = {
