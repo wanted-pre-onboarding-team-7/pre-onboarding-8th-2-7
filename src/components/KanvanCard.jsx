@@ -45,15 +45,6 @@ const KanvanCard = ({
     e.dataTransfer.setData('card', JSON.stringify(card));
   };
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
-  const handleDragDrop = (e) => {
-    e.preventDefault();
-    console.log('드래그', e.dataTransfer.getData('card'));
-  };
-
   return (
     <DivCardWrapper
       draggable
@@ -61,8 +52,6 @@ const KanvanCard = ({
       onMouseOut={handleMouseOut}
       onClick={handleOpenModal}
       onDragStart={handleDragStart}
-      onDragOver={handleDragOver}
-      onDrop={handleDragDrop}
     >
       <div>
         <DivTitleWrapper onClick={handleOpenModal}>

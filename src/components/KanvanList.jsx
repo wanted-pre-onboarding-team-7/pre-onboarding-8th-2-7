@@ -42,6 +42,16 @@ const KanvanList = ({ name, stateName }) => {
     }));
   });
 
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDragDrop = (e) => {
+    e.preventDefault();
+    console.log(stateName);
+    console.log('드래그', JSON.parse(e.dataTransfer.getData('card')));
+  };
+
   return (
     <DivListLayout>
       <DivStatusWrapper>
@@ -51,7 +61,7 @@ const KanvanList = ({ name, stateName }) => {
         </DivStatusContainer>
       </DivStatusWrapper>
       <DivListWrapper>
-        <UlListArea>
+        <UlListArea onDrop={handleDragDrop} onDragOver={handleDragOver}>
           {kanvanCards[stateName].map((card) => (
             <KanvanCard
               key={card.id}
