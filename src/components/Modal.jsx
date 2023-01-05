@@ -25,7 +25,6 @@ const Modal = ({ clickOpenModal, issueId, status }) => {
   const dueDateRef = useRef();
   const statusRef = useRef();
   const contentRef = useRef();
-
   const clickAddIssue = (evt) => {
     evt.preventDefault();
     const mode = issueId !== null && status ? 'read' : 'create';
@@ -107,7 +106,7 @@ const Modal = ({ clickOpenModal, issueId, status }) => {
               defaultValue={issue.dueDate}
             />
             <div className="label">상태</div>
-            <Select name="status" ref={statusRef}>
+            <Select name="status" ref={statusRef} defaultValue={status}>
               <option value={KANBAN_STATE.TODOS}>
                 {BOARD_TITLE[KANBAN_STATE.TODOS]}
               </option>
