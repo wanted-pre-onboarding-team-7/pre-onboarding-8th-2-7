@@ -6,9 +6,12 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
+    "gh-pages": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
+    "recoil": "^0.7.6",
+    "recoil-persist": "^4.2.0",
     "styled-components": "^5.3.6",
     "web-vitals": "^2.1.0"
   },
@@ -19,7 +22,9 @@
     "eject": "react-scripts eject",
     "format": "prettier --write --cache .",
     "lint": "eslint --cache .",
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "deploy": "gh-pages -d build",
+    "pnpm redeploy": "npm run build"
   },
   "eslintConfig": {
     "extends": [
@@ -44,5 +49,6 @@
     "eslint-config-prettier": "^8.6.0",
     "husky": "^8.0.3",
     "prettier": "^2.8.1"
-  }
+  },
+  "homepage": "https://wanted-pre-onboarding-team-7.github.io/pre-onboarding-8th-2-7"
 }
