@@ -1,14 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import styled from 'styled-components';
 import Manager from './Manager';
+import styled from 'styled-components';
 
 const Modal = () => {
   const titleRef = useRef(null);
   const contentRef = useRef(null);
   const phaseRef = useRef(null);
   const dueDateRef = useRef(null);
+  const [keyword, setKeyword] = useState(null);
 
   const clickPostIssue = async () => {
     const response = await axios.post(
@@ -17,6 +18,7 @@ const Modal = () => {
         title: titleRef.current?.value,
         content: contentRef.current?.value,
         dueDate: dueDateRef.current?.value,
+        manager: keyword,
       },
     );
     if (response.status === 201) window.location.replace('/');
@@ -32,7 +34,7 @@ const Modal = () => {
           </div>
           <div>
             <Label htmlFor="">담당자</Label>
-            <Manager />
+            <Manager keyword={keyword} setKeyword={setKeyword} />
           </div>
           <div>
             <Label htmlFor="">마감일</Label>

@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
 import { users } from '../utils/dummyData';
 
-const Manager = () => {
-  const [keyword, setKeyword] = useState('');
+const Manager = ({ keyword, setKeyword }) => {
   const [filtered, setFiltered] = useState([]);
-  console.log(keyword);
 
   const search = () => {
     const filterd = users.filter((user) => user.includes(keyword));
