@@ -1,12 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const AddBtn = ({ setModal,setInfo }) => {
+const AddBtn = ({ setModal, setInfo }) => {
   return (
-    <DivWrapper onClick={() =>{
-        setInfo()
-        setModal(true)
-    } }>
+    <DivWrapper
+      onClick={() => {
+        setInfo();
+        setModal(true);
+      }}
+    >
       <div>새로 만들기</div>
     </DivWrapper>
   );

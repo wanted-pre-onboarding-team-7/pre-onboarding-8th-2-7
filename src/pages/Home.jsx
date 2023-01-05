@@ -8,7 +8,7 @@ import DetailComponent from '../components/DetailComponent';
 function Home() {
   const [data, setData] = useState();
   const [modal, setModal] = useState(false);
-  const [info,setInfo] = useState()
+  const [info, setInfo] = useState();
   useEffect(() => {
     if (localStorage.getItem('List')) {
       console.log(localStorage.getItem('List'));
@@ -16,13 +16,13 @@ function Home() {
     } else {
       setData(defaultData);
     }
-  }, [setData,modal]);
+  }, [setData, modal]);
   return (
     <DivMain>
       <DivLeft>
         <AddBtn setModal={setModal} setInfo={setInfo} />
       </DivLeft>
-      <DragNDrop data={data} setModal={setModal} setInfo={setInfo}/>
+      <DragNDrop data={data} setModal={setModal} setInfo={setInfo} />
       {modal && <DetailComponent setModal={setModal} data={data} info={info} />}
     </DivMain>
   );

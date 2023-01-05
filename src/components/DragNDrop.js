@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import AddBtn from './AddBtn';
 
-function DragNDrop({ data,setModal,setInfo }) {
+function DragNDrop({ data, setModal, setInfo }) {
   const [list, setList] = useState(data);
   const [dragging, setDragging] = useState(false);
 
@@ -12,16 +12,14 @@ function DragNDrop({ data,setModal,setInfo }) {
 
   const dragItem = useRef();
   const dragNode = useRef();
-  const onClickDelete = (grpI,itemI) => {
-    setList((oldList)=>{
-        let newList = JSON.parse(JSON.stringify(oldList));
-        newList[grpI].items.splice(itemI,1)
-        localStorage.setItem('List',JSON.stringify(newList));
-        return newList;
-    })
-
-
-  }
+  const onClickDelete = (grpI, itemI) => {
+    setList((oldList) => {
+      let newList = JSON.parse(JSON.stringify(oldList));
+      newList[grpI].items.splice(itemI, 1);
+      localStorage.setItem('List', JSON.stringify(newList));
+      return newList;
+    });
+  };
   const handletDragStart = (e, item) => {
     console.log('Starting to drag', item);
 
@@ -103,27 +101,35 @@ function DragNDrop({ data,setModal,setInfo }) {
                     : null
                 }
                 className={'dnd-item'}
-
               >
-                <Flex><div style={{ margin: '5px' }}>{item.title}</div><div onClick={()=>onClickDelete(grpI,itemI)}style={{cursor:"pointer",marginRight:"10px"}}>X</div></Flex>
-                <div                 onClick={()=>{
-                    setInfo([item,grp.title,grp.color])
-                    setModal(true)
-                }}>
-                <div style={{ margin: '5px' }}>{item.manager}</div>
-                <div style={{ margin: '5px' }}>{item.content}</div>
+                <Flex>
+                  <div style={{ margin: '5px' }}>{item.title}</div>
+                  <div
+                    onClick={() => onClickDelete(grpI, itemI)}
+                    style={{ cursor: 'pointer', marginRight: '10px' }}
+                  >
+                    X
+                  </div>
+                </Flex>
                 <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    textAlign: 'right',
-                    marginRight: '10px',
+                  onClick={() => {
+                    setInfo([item, grp.title, grp.color]);
+                    setModal(true);
                   }}
                 >
-                  {item.id}
+                  <div style={{ margin: '5px' }}>{item.manager}</div>
+                  <div style={{ margin: '5px' }}>{item.content}</div>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'flex-end',
+                      textAlign: 'right',
+                      marginRight: '10px',
+                    }}
+                  >
+                    {item.id}
+                  </div>
                 </div>
-                </div>
-               
               </div>
             ))}
           </div>
@@ -140,9 +146,9 @@ const DivCircle = styled.div`
   border-radius: 50%;
   background-color: ${(props) => props.flag};
 `;
-const Flex =styled.div`
- display:flex;
- align-items:center;
- justify-content:space-between;
-`
+const Flex = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
 export default DragNDrop;
