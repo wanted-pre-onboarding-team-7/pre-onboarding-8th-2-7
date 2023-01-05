@@ -4,6 +4,7 @@ import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { issueListState } from '../store/atoms';
 import { KANBAN_STATE, BOARD_TITLE } from '../utils/constant';
+import ModalManager from './ModalManager';
 
 const INIT_VAL = {
   id: Number(Date.now()),
@@ -89,28 +90,23 @@ const Modal = ({ clickOpenModal, issueId, status }) => {
       <DivWrapper>
         <form onSubmit={clickAddIssue}>
           <DivInputWrapper>
-            <div>제목</div>
-            <InputTitle
+            <div className="label">제목</div>
+            <Input
               type="text"
               required
               ref={titleRef}
               defaultValue={issue.title}
             />
-            <div>담당자</div>
-            <InputTitle
-              type="text"
-              required
-              ref={managerRef}
-              defaultValue={issue.manager}
-            />
-            <div>마감일</div>
-            <InputTitle
+            <ModalManager managerRef={managerRef} issueValue={issue.manager} />
+            <br />
+            <div className="label">마감일</div>
+            <Input
               type="datetime-local"
               required
               ref={dueDateRef}
               defaultValue={issue.dueDate}
             />
-            <div>상태</div>
+            <div className="label">상태</div>
             <Select name="status" ref={statusRef}>
               <option value={KANBAN_STATE.TODOS}>
                 {BOARD_TITLE[KANBAN_STATE.TODOS]}
@@ -123,7 +119,7 @@ const Modal = ({ clickOpenModal, issueId, status }) => {
               </option>
             </Select>
             <br />
-            <div>내용</div>
+            <div className="label">내용</div>
             <TextArea required ref={contentRef} defaultValue={issue.content} />
             <Button type="button" onClick={clickCloseModal}>
               취소
@@ -156,17 +152,18 @@ const DivModal = styled.div`
 const DivWrapper = styled.div`
   width: 600px;
   height: fit-content;
+  position: relative;
 `;
 const DivInputWrapper = styled.div`
   margin: 20px;
   text-align: center;
-  div {
+  .label {
     display: inline-block;
     width: 80px;
     font-weight: 400;
   }
 `;
-const InputTitle = styled.input`
+const Input = styled.input`
   width: 80%;
   height: 30px;
   margin-bottom: 10px;
