@@ -24,10 +24,7 @@ export const modalCardSelector = selector({
   key: 'modalCardSelector',
   get: ({ get }) => {
     const modal = get(modalState);
-    if (modal.id !== undefined) {
-      return { ...modal };
-    }
-    return modal.state;
+    return modal.id ? modal : modal.state;
   },
 });
 
