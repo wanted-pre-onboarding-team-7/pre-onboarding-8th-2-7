@@ -54,6 +54,7 @@ export const kanbanBoard = {
       title: '팀프로젝트 회의',
       content: 'Best practice 찾기',
       dueDate: '2023-01-12T19:30',
+      manager: '김수진',
     },
   ],
   [KANBAN_STATE.DONE]: [
