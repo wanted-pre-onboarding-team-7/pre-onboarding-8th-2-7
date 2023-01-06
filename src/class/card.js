@@ -24,6 +24,7 @@ export class Card {
   set id(value) {
     this.#id = value;
   }
+
   get title() {
     return this.#title;
   }
@@ -31,6 +32,7 @@ export class Card {
   set title(value) {
     this.#title = value;
   }
+
   get content() {
     return this.#content;
   }
@@ -38,6 +40,7 @@ export class Card {
   set content(value) {
     this.#content = value;
   }
+
   get dueDate() {
     return this.#dueDate;
   }
@@ -45,6 +48,7 @@ export class Card {
   set dueDate(value) {
     this.#dueDate = value;
   }
+
   get manager() {
     return this.#manager;
   }
@@ -52,6 +56,7 @@ export class Card {
   set manager(value) {
     this.#manager = value;
   }
+
   get state() {
     return this.#state;
   }
@@ -70,6 +75,7 @@ export class Card {
       state: this.#state,
     };
   }
+
   get objectExceptState() {
     return {
       id: this.#id,
@@ -80,22 +86,34 @@ export class Card {
     };
   }
 
+  get isNewCard() {
+    return false;
+  }
+
   isNoEmpty() {
     const values = Object.values(this.object);
     const emptyValues = values.filter((v) => v === '');
     return emptyValues.length === 0;
   }
-  static createCard(obj) {
-    return new Card(obj);
+
+  static createCard(modalObj) {
+    return new Card(modalObj);
   }
-  static createNewCard(state) {
+
+  static createNewCard(modalObj) {
     const newCard = {
       id: createNewId(),
       dueDate: getFormattedToday(),
       ...defaultCard,
-      state,
+      state: modalObj.state,
     };
-    return new Card(newCard);
+    return new NewCard(newCard);
+  }
+}
+
+export class NewCard extends Card {
+  get isNewCard() {
+    return true;
   }
 }
 
@@ -103,6 +121,7 @@ export const createNewId = () => {
   const newId = Number(getLocalStorageId()) + 1;
   return newId;
 };
+
 export const updateLocalStorgeId = (newId) => {
   const prevId = getLocalStorageId();
   if (Number(prevId) < Number(newId)) {
@@ -115,5 +134,3 @@ export const defaultCard = {
   content: '',
   manager: '',
 };
-
-export class NewCard extends Card {}

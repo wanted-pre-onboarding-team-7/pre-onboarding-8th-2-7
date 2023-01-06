@@ -4,17 +4,20 @@ import styled from 'styled-components';
 import KanbanBoard from '../components/kanban/KanbanBoard';
 import KanbanHeader from '../components/kanban/KanbanHeader';
 import Modal from '../components/modal/Modal';
-import { kanbanCardsState, modalState } from '../store/atom';
+import {
+  doneCardsState,
+  modalState,
+  progressCardsState,
+  todoCardsState,
+} from '../store/atom';
 import { theme } from '../theme';
-import { KANBAN_STATE } from '../utils/constant';
 import { isObjectHasKey } from '../utils/utilFn';
 
 const Home = () => {
-
   const modalData = useRecoilValue(modalState);
-  const todos = useRecoilValue(kanbanCardsState[KANBAN_STATE.TODOS]);
-  const progress = useRecoilValue(kanbanCardsState[KANBAN_STATE.PROGRESS]);
-  const done = useRecoilValue(kanbanCardsState[KANBAN_STATE.DONE]);
+  const todos = useRecoilValue(todoCardsState);
+  const progress = useRecoilValue(progressCardsState);
+  const done = useRecoilValue(doneCardsState);
 
   const [isKanbanChanged, setIsKanbanChanged] = useState(false);
   useEffect(() => {

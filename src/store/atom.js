@@ -31,21 +31,23 @@ export const modalCardSelector = selector({
   key: 'modalCardSelector',
   get: ({ get }) => {
     const modal = get(modalState);
-    return modal.id ? modal : modal.state;
+    return modal.id !== undefined
+      ? { ...modal, isUpdate: true }
+      : { state: modal.state, isUpdate: false };
   },
 });
 
-const todoCardsState = atom({
+export const todoCardsState = atom({
   key: 'TodoCards',
   default: DUMMY_KANBAN[KANBAN_STATE.TODOS], //array
   effects: [persistAtom],
 });
-const progressCardsState = atom({
+export const progressCardsState = atom({
   key: 'ProgressCards',
   default: DUMMY_KANBAN[KANBAN_STATE.PROGRESS], //array
   effects: [persistAtom],
 });
-const doneCardsState = atom({
+export const doneCardsState = atom({
   key: 'DoneCards',
   default: DUMMY_KANBAN[KANBAN_STATE.DONE], //array
   effects: [persistAtom],

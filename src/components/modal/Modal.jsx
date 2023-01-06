@@ -1,15 +1,11 @@
 import React from 'react';
-import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { Card, updateLocalStorgeId } from '../../class/card';
-import {
-  kanbanCardsState,
-  modalCardSelector,
-  modalState,
-} from '../../store/atom';
+import { useUpdateCards } from '../../hooks/useUpdateCards';
+import { modalCardSelector, modalState } from '../../store/atom';
 import { theme } from '../../theme';
 import { MODAL_ROWS } from '../../utils/constant';
-import { createCard, isObjectHasKey, updateCard } from '../../utils/utilFn';
 import ModalContent from '../inputs/ModalContent';
 import ModalDueDateInput from '../inputs/ModalDueDateInput';
 import ModalManagerInput from '../inputs/ModalManagerInput';
@@ -20,33 +16,35 @@ import ModalRow from './ModalRow';
 const Modal = () => {
   const resetModal = useResetRecoilState(modalState);
   const modalData = useRecoilValue(modalCardSelector);
-  const isUpdate = isObjectHasKey(modalData);
-  const card = isUpdate
+  const card = modalData.isUpdate
     ? Card.createCard(modalData)
     : Card.createNewCard(modalData);
-
-  const [cards, setCards] = useRecoilState(kanbanCardsState[card.state]);
+  const initialState = card.state;
+  const { updateSameStateCardsByCard, updateDiffStateCardsByCard } =
+    useUpdateCards();
 
   const clickOverlay = (e) => {
     if (e.target.id === 'overlay') {
       return resetModal();
     }
   };
+
   const clickSaveBtn = (event) => {
     event.preventDefault();
     if (!card.isNoEmpty()) {
       return alert('모든 내용을 입력해주세요');
     }
 
-    const newCards = isUpdate
-      ? updateCard([...cards], card)
-      : createCard([...cards], card);
-
-    setCards(newCards);
+    if (initialState === card.state) {
+      updateSameStateCardsByCard(card);
+    } else {
+      updateDiffStateCardsByCard(initialState, card);
+    }
 
     updateLocalStorgeId(card.id);
     resetModal();
   };
+
   const clickCancelBtn = (event) => {
     event.preventDefault();
     if (window.confirm('변경 사항을 취소하시겠습니까?')) {
