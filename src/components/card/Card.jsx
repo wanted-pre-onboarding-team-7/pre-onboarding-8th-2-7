@@ -1,23 +1,33 @@
 import React, { useRef, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
-import styled from 'styled-components';
-import { modalState } from '../../store/atom';
-import { theme } from '../../theme';
+
 import DeleteCardBtn from '../btns/DeleteCardBtn';
+import { modalState } from '../../store/atom';
+import styled from 'styled-components';
+import { theme } from '../../theme';
+import { useSetRecoilState } from 'recoil';
 
 const Card = ({ item, kanbanState }) => {
+  const [isHover, setIsHover] = useState(false);
   const setmModalState = useSetRecoilState(modalState);
   const clickCard = () => {
     setmModalState({ ...item, state: kanbanState });
   };
 
+  const handleMouseOver = () => {
+    setIsHover(true);
+  };
+
+  const handleMouseOut = () => {
+    setIsHover(false);
+  };
+
   return (
-    <DivWrapper id={item.id}>
-      <DivCard
-        onClick={clickCard}
-        borderColor={theme.border}
-        shadowColor={theme.shadow}
-      >
+    <DivWrapper
+      id={item.id}
+      onMouseOver={handleMouseOver}
+      onMouseOut={handleMouseOut}
+    >
+      <DivCard borderColor={theme.border} shadowColor={theme.shadow}>
         <DivColLeft>
           <H1Title>{item.title}</H1Title>
           <SpanManager>담당자: {item.manager}</SpanManager>
@@ -27,7 +37,12 @@ const Card = ({ item, kanbanState }) => {
           <span>{item.id}</span>
         </DivColRight>
       </DivCard>
-      <DeleteCardBtn id={item.id} kanbanState={kanbanState} />
+      {isHover && (
+        <>
+          <EditCardBtn onClick={clickCard}>✏️</EditCardBtn>
+          <DeleteCardBtn id={item.id} kanbanState={kanbanState} />
+        </>
+      )}
     </DivWrapper>
   );
 };
@@ -35,6 +50,9 @@ export default Card;
 
 const DivWrapper = styled.div`
   position: relative;
+  &:hover {
+    background-color: rgba(128, 128, 128, 0.2);
+  }
 `;
 
 const DivCard = styled.div`
@@ -67,4 +85,13 @@ const DivColRight = styled.div`
 const SpanManager = styled.span``;
 const SpanContent = styled.span`
   overflow: hidden;
+`;
+
+const EditCardBtn = styled.button`
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  position: absolute;
+  top: 15px;
+  right: 55px;
 `;
