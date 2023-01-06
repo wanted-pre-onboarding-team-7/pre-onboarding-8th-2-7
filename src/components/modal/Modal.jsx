@@ -23,17 +23,10 @@ const Modal = () => {
   const { updateSameStateCardsByCard, updateDiffStateCardsByCard } =
     useUpdateCards();
 
-  let closeTimer;
   const clickOverlay = (e) => {
-    e.preventDefault();
-    if (closeTimer) {
-      clearTimeout(closeTimer);
+    if (e.target.id === 'overlay') {
+      return resetModal();
     }
-    timer = setTimeout(() => {
-      if (e.target.id === 'overlay') {
-        return resetModal();
-      }
-    }, 500);
   };
 
   let timer;
