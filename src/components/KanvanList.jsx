@@ -42,10 +42,10 @@ const KanvanList = ({ name, stateName }) => {
     }));
   });
 
-  const handleDragStart = (e) => {
+  const handleDragStart = (card) => (e) => {
     console.log('드래그 시작');
+    console.log(e.target.cloneNode(true));
     e.dataTransfer.setData('card', JSON.stringify(card));
-    console.log(e.target.getBoundingClientRect());
   };
 
   const handleDragOver = (e) => {
@@ -54,8 +54,10 @@ const KanvanList = ({ name, stateName }) => {
 
   const handleDragDrop = (e) => {
     e.preventDefault();
-    console.log(e.clientX, e.clientY);
-    console.log(stateName);
+    if (e.target.tagName === 'UL') {
+      console.dir(e.target);
+      console.log(e.target.closest('div'));
+    }
     console.log('드랍', JSON.parse(e.dataTransfer.getData('card')));
   };
 
@@ -68,16 +70,14 @@ const KanvanList = ({ name, stateName }) => {
         </DivStatusContainer>
       </DivStatusWrapper>
       <DivListWrapper>
-        <UlListArea>
+        <UlListArea onDrop={handleDragDrop} onDragOver={handleDragOver}>
           {kanvanCards[stateName].map((card) => (
             <KanvanCard
               key={card.id}
               {...card}
               onRemove={handleRemove}
               onUpdate={handleUpdateTitle}
-              onDragOver={handleDragOver}
               onDragStart={handleDragStart}
-              onDragEnd={handleDragDrop}
             />
           ))}
         </UlListArea>

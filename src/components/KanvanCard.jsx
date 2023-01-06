@@ -12,13 +12,14 @@ const KanvanCard = ({
   onRemove,
   onUpdate,
   status,
+  onDragOver,
+  onDragStart,
 }) => {
   const inputRef = useRef();
   const [isHover, setIsHover] = useState(false);
   const [mode, setMode] = useState(true);
   const setToggle = useSetRecoilState(toggleModal);
   const setCardId = useSetRecoilState(selectedCardId);
-  const card = useRecoilValue(getCardState({ id, status }));
 
   const handleOpenModal = (e) => {
     if (e.target !== e.currentTarget) return;
@@ -46,6 +47,7 @@ const KanvanCard = ({
       draggable
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
+      onDragStart={onDragStart({ id, status })}
       onClick={handleOpenModal}
     >
       <div>
