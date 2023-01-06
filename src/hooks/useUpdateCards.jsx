@@ -6,6 +6,7 @@ import {
 } from '../store/atom';
 import {
   createCard,
+  createCardByIndex,
   deleteCard,
   getCardById,
   updateCard,
@@ -22,28 +23,35 @@ export const useUpdateCards = () => {
     progress: [...progress],
     done: [...done],
   };
+
   const setCardsArr = {
     todos: setTodos,
     progress: setProgress,
     done: setDone,
   };
 
-  const updateSameStateCardsById = (state, id) => {
+  const updateSameStateCardsById = (state, id, index) => {
     const selectedCard = getCardById(cardsArr[state], id);
     const deletedArr = deleteCard(cardsArr[state], id);
-    const newDragCards = createCard(deletedArr, selectedCard);
+    const newDragCards = createCardByIndex(deletedArr, selectedCard, index);
 
     setCardsArr[state](newDragCards);
   };
 
-  const updateDiffStateCardsById = (prevState, prevId, currState, currId) => {
+  const updateDiffStateCardsById = (
+    prevState,
+    prevId,
+    currState,
+    currId,
+    index,
+  ) => {
     const selectedCard = getCardById(cardsArr[prevState], prevId);
     const newPrevCards = deleteCard(cardsArr[prevState], prevId);
-    const newCurrCards = updateNewCard(
-      cardsArr[currState],
-      currId,
-      selectedCard,
-    );
+    const isEnd = cardsArr[currState].length - 1 === index;
+
+    const newCurrCards = isEnd
+      ? createCard(cardsArr[currState], selectedCard)
+      : updateNewCard(cardsArr[currState], currId, selectedCard);
 
     setCardsArr[prevState](newPrevCards);
     setCardsArr[currState](newCurrCards);

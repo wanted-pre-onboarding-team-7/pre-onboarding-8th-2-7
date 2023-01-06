@@ -9,6 +9,7 @@ import { useSetRecoilState } from 'recoil';
 const Card = ({ item, kanbanState }) => {
   const [isHover, setIsHover] = useState(false);
   const setmModalState = useSetRecoilState(modalState);
+
   const clickCard = () => {
     setmModalState({ ...item, state: kanbanState });
   };
@@ -56,7 +57,7 @@ const DivWrapper = styled.div`
 `;
 
 const DivCard = styled.div`
-  height: 100px;
+  height: 150px;
   display: flex;
   border-radius: 10px;
   padding: 15px;

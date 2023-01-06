@@ -8,13 +8,14 @@ const Cards = ({ items, kanbanState }) => {
   const dragOverItem = useRef();
   return (
     <DivCardWrapper>
-      {items.map((card) => (
+      {items.map((card, index) => (
         <Draggable
           id={card.id}
           key={card.id}
           kanbanState={kanbanState}
           dragItem={dragItem}
           dragOverItem={dragOverItem}
+          index={index}
         >
           <Card item={card} kanbanState={kanbanState} />
         </Draggable>

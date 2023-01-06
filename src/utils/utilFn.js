@@ -66,3 +66,21 @@ export const getCardById = (cards, id) => {
   );
   return Card.createCard(...result);
 };
+
+export const createCardByIndex = (prevCards, card, index) => {
+  const newCards = prevCards;
+  // newCards.push(card.objectExceptState);
+  newCards.splice(index, 0, card.objectExceptState);
+  return newCards;
+};
+
+// export const updateNewCardIndex = (prevCards, prevId, card) => {
+//   const findIndex = prevCards.findIndex((storedCard) => {
+//     return String(storedCard.id) === String(prevId);
+//   });
+
+//   const newCards = prevCards;
+//   newCards.splice(Number(findIndex), 0, card.objectExceptState);
+
+//   return newCards;
+// };

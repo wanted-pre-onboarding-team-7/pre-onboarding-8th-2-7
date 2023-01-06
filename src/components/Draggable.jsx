@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useUpdateCards } from '../hooks/useUpdateCards';
 import { dragOverState, dragState } from '../store/atom';
 
-const Draggable = ({ id, kanbanState, children }) => {
+const Draggable = ({ id, kanbanState, index, children }) => {
   const [dragItem, setDragItem] = useRecoilState(dragState);
   const [dragOverItem, setDragOverItem] = useRecoilState(dragOverState);
 
@@ -33,6 +33,7 @@ const Draggable = ({ id, kanbanState, children }) => {
           dragItem.id,
           dragOverItem.state,
           dragOverItem.id,
+          index,
         );
   };
 

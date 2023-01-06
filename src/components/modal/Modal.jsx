@@ -29,27 +29,38 @@ const Modal = () => {
     }
   };
 
+  let timer;
   const clickSaveBtn = (event) => {
     event.preventDefault();
-    if (!card.isNoEmpty()) {
-      return alert('모든 내용을 입력해주세요');
+    if (timer) {
+      clearTimeout(timer);
     }
+    timer = setTimeout(() => {
+      if (!card.isNoEmpty()) {
+        return alert('모든 내용을 입력해주세요');
+      }
 
-    if (initialState === card.state) {
-      updateSameStateCardsByCard(card);
-    } else {
-      updateDiffStateCardsByCard(initialState, card);
-    }
+      if (initialState === card.state) {
+        updateSameStateCardsByCard(card);
+      } else {
+        updateDiffStateCardsByCard(initialState, card);
+      }
 
-    updateLocalStorgeId(card.id);
-    resetModal();
+      updateLocalStorgeId(card.id);
+      resetModal();
+    }, 500);
   };
 
   const clickCancelBtn = (event) => {
     event.preventDefault();
-    if (window.confirm('변경 사항을 취소하시겠습니까?')) {
-      resetModal();
+    if (timer) {
+      clearTimeout(timer);
     }
+    timer = setTimeout(() => {
+      if (window.confirm('변경 사항을 취소하시겠습니까?')) {
+        resetModal();
+      }
+    }, 500);
   };
 
   return (
