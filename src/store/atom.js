@@ -52,17 +52,17 @@ const localStorageEffect =
     });
   };
 
-const todoCardsState = atom({
+export const todoCardsState = atom({
   key: 'TodoCards',
   default: DUMMY_KANBAN[KANBAN_STATE.TODOS], //array
   effects: [localStorageEffect(KANBAN_STATE.TODOS)],
 });
-const progressCardsState = atom({
+export const progressCardsState = atom({
   key: 'ProgressCards',
   default: DUMMY_KANBAN[KANBAN_STATE.PROGRESS], //array
   effects: [localStorageEffect(KANBAN_STATE.PROGRESS)],
 });
-const doneCardsState = atom({
+export const doneCardsState = atom({
   key: 'DoneCards',
   default: DUMMY_KANBAN[KANBAN_STATE.DONE], //array
   effects: [localStorageEffect(KANBAN_STATE.DONE)],

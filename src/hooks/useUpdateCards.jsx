@@ -1,6 +1,9 @@
 import { useRecoilState } from 'recoil';
-import { kanbanCardsState } from '../store/atom';
-import { KANBAN_STATE } from '../utils/constant';
+import {
+  doneCardsState,
+  progressCardsState,
+  todoCardsState,
+} from '../store/atom';
 import {
   createCard,
   deleteCard,
@@ -10,13 +13,9 @@ import {
 } from '../utils/utilFn';
 
 export const useUpdateCards = () => {
-  const [todos, setTodos] = useRecoilState(
-    kanbanCardsState[KANBAN_STATE.TODOS],
-  );
-  const [progress, setProgress] = useRecoilState(
-    kanbanCardsState[KANBAN_STATE.PROGRESS],
-  );
-  const [done, setDone] = useRecoilState(kanbanCardsState[KANBAN_STATE.DONE]);
+  const [todos, setTodos] = useRecoilState(todoCardsState);
+  const [progress, setProgress] = useRecoilState(progressCardsState);
+  const [done, setDone] = useRecoilState(doneCardsState);
 
   const cardsArr = {
     todos: [...todos],
