@@ -91,6 +91,208 @@ const doneCardsState = atom({
 });
 ```
 
-- recoil을 사용해서 전역 상태관리를 했습니다.
-* LocalStorage에 저장되는 로컬 데이터는 recoil-persist를 추가로 사용했습니다.
+- recoil을 사용한 전역 상태관리
+* LocalStorage에 저장되는 로컬 데이터는 recoil-persist를 추가로 사용
 
+### [Assignment2] 칸반보드의 모달창(이슈카드 Read, Update)
+
+#### 📝 Modal 데이터를 atom, selector를 사용하여 전역 관리
+- 객체 전역 데이터인 `modalState`를 사용하여 모달창 on/off
+- 새로만들기 클릭 시 칸반보드 state 정보를, 카드 클릭 시 카드 데이터 정보를 `modalState`에 전달
+- `selector`를 사용하여 `atom`의 정보 변환하여 모달창에 전달
+```jsx
+export const modalState = atom({
+  key: 'ModalState',
+  default: {},
+});
+
+export const modalCardSelector = selector({
+  key: 'modalCardSelector',
+  get: ({ get }) => {
+    const modal = get(modalState);
+    return modal.id !== undefined
+      ? { ...modal, isUpdate: true }
+      : { state: modal.state, isUpdate: false };
+  },
+});
+```
+
+- `selector`에서 반환하는 값으로 Card 인스턴스를 생성함(인스턴스 팩토리 함수 사용)
+```jsx
+Modal.js
+  const modalData = useRecoilValue(modalCardSelector);
+  const card = modalData.isUpdate
+    ? Card.createCard(modalData)
+    : Card.createNewCard(modalData);
+
+```
+
+
+#### 📝 Card class를 활용한 데이터와 로직 관리
+- Modal 컴포넌트에서 데이터 get/set 로직과 필요한 객체 반환 로직을 클래스 인스턴스를 사용하여 처리
+- Static method인`createCard` `createNewCard`를 사용하여 기존 카드 생성/ 새로운 카드 생성하는 인스턴스 팩토리 함수 구햔
+
+```jsx
+export class Card {
+  #id; // 각 필드는 gettet와 setter로 접근 가능
+  #title;
+  #content;
+  #dueDate;
+  #manager;
+  #state;
+
+  constructor(obj) {
+    this.#id = obj.id;
+    this.#title = obj.title;
+    this.#content = obj.content;
+    this.#dueDate = obj.dueDate;
+    this.#manager = obj.manager;
+    this.#state = obj.state;
+  }
+
+  get object() {
+    return {
+      id: this.#id,
+      title: this.#title,
+      content: this.#content,
+      dueDate: this.#dueDate,
+      manager: this.#manager,
+      state: this.#state,
+    };
+  }
+
+  get objectExceptState() {
+    return {
+      id: this.#id,
+      title: this.#title,
+      content: this.#content,
+      dueDate: this.#dueDate,
+      manager: this.#manager,
+    };
+  }
+
+  get isNewCard() {
+    return false;
+  }
+
+  isNoEmpty() {
+    const values = Object.values(this.object);
+    const emptyValues = values.filter((v) => v === '');
+    return emptyValues.length === 0;
+  }
+
+  static createCard(modalObj) {
+    return new Card(modalObj);
+  }
+
+  static createNewCard(modalObj) {
+    const newCard = {
+      id: createNewId(),
+      dueDate: getFormattedToday(),
+      ...defaultCard,
+      state: modalObj.state,
+    };
+    return new NewCard(newCard);
+  }
+}
+
+export class NewCard extends Card {
+  get isNewCard() {
+    return true;
+  }
+}
+```
+
+
+#### 📝 useUpdateCards 커스텀 훅을 사용한 Cards 배열 데이터 관리
+- 모달 창에서 저장 버튼 클릭 시 빈 input 값이 있다면 alert 발생
+- 새로운 카드 생성 / 기존 카드 수정에 따라 커스텀 훅 실행
+
+```jsx
+  const clickSaveBtn = (event) => {
+
+    event.preventDefault();
+    if (!card.isNoEmpty()) {
+      return alert('모든 내용을 입력해주세요');
+    }
+
+    if (initialState === card.state) {
+      updateSameStateCardsByCard(card);
+    } else {
+      updateDiffStateCardsByCard(initialState, card);
+    }
+
+  };
+
+
+```
+- 전역으로 관리하는 3 개의 상태(배열)을 수정하는 커스텀 훅
+
+```jsx
+export const useUpdateCards = () => {
+  const [todos, setTodos] = useRecoilState(todoCardsState);
+  const [progress, setProgress] = useRecoilState(progressCardsState);
+  const [done, setDone] = useRecoilState(doneCardsState);
+
+  const cardsArr = {
+    todos: [...todos],
+    progress: [...progress],
+    done: [...done],
+  };
+
+  const setCardsArr = {
+    todos: setTodos,
+    progress: setProgress,
+    done: setDone,
+  };
+
+
+  const updateSameStateCardsByCard = (card) => {
+    const newCard = card.isNewCard
+      ? createCard(cardsArr[card.state], card)
+      : updateCard(cardsArr[card.state], card);
+    setCardsArr[card.state](newCard);
+  };
+
+  const updateDiffStateCardsByCard = (prevState, card) => {
+    const newPrevCards = deleteCard(cardsArr[prevState], card.id);
+    const newCard = createCard(cardsArr[card.state], card);
+
+    setCardsArr[prevState](newPrevCards);
+    setCardsArr[card.state](newCard);
+  };
+
+  return {
+    updateSameStateCardsByCard,
+    updateDiffStateCardsByCard,
+  };
+};
+
+
+```
+
+#### 📝 모달 상태 값 관리
+- 담당자: 임수진
+```js
+import { KANBAN_STATE } from '../../utils/constant';
+
+const ModalStateInput = ({ card }) => {
+    const stateRef = useRef(card.state);
+  
+    const optionClick = () => {
+      card.state = stateRef.current.value;
+    };
+  
+    return (
+      <DivWrapper>
+        <select ref={stateRef} defaultValue={stateRef} onChange={optionClick}>
+          <option value={KANBAN_STATE.TODOS}>할 일</option>
+          <option value={KANBAN_STATE.PROGRESS}>진행 중</option>
+          <option value={KANBAN_STATE.DONE}>완료</option>
+        </select>
+      </DivWrapper>
+    );
+  };
+  ```
+  - `useRef`로 선택된 값을 받고, `create`ㆍ`read`ㆍ`update`의 모달창이 동일하기 때문에 `create`가 아닐 경우 이미 선택된 값을 받아와 사용
+  - 각각의 option value는 값이 변하지 않기 때문에 상수를 불러와 사용
