@@ -9,7 +9,6 @@ import {
 } from '../../store/atom';
 import { theme } from '../../theme';
 import { MODAL_ROWS } from '../../utils/constant';
-import { createCard, isObjectHasKey, updateCard } from '../../utils/utilFn';
 import ModalContent from '../inputs/ModalContent';
 import ModalDueDateInput from '../inputs/ModalDueDateInput';
 import ModalManagerInput from '../inputs/ModalManagerInput';
@@ -20,8 +19,7 @@ import ModalRow from './ModalRow';
 const Modal = () => {
   const resetModal = useResetRecoilState(modalState);
   const modalData = useRecoilValue(modalCardSelector);
-  const isUpdate = isObjectHasKey(modalData);
-  const card = isUpdate
+  const card = modalData.isUpdate
     ? Card.createCard(modalData)
     : Card.createNewCard(modalData);
 

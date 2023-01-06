@@ -96,16 +96,16 @@ export class Card {
     return emptyValues.length === 0;
   }
 
-  static createCard(obj) {
-    return new Card(obj);
+  static createCard(modalObj) {
+    return new Card(modalObj);
   }
 
-  static createNewCard(state) {
+  static createNewCard(modalObj) {
     const newCard = {
       id: createNewId(),
       dueDate: getFormattedToday(),
       ...defaultCard,
-      state,
+      state: modalObj.state,
     };
     return new NewCard(newCard);
   }

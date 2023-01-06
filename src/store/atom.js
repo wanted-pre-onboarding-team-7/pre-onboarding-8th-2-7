@@ -28,9 +28,9 @@ export const modalCardSelector = selector({
   get: ({ get }) => {
     const modal = get(modalState);
     if (modal.id !== undefined) {
-      return { ...modal };
+      return { ...modal, isUpdate: true };
     }
-    return modal.state;
+    return { state: modal.state, isUpdate: false };
   },
 });
 
