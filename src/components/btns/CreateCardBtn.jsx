@@ -6,9 +6,15 @@ import { KANBAN_STATE } from '../../utils/constant';
 
 const CreateCard = ({ children, kanbanState }) => {
   const setmodalState = useSetRecoilState(modalState);
+  let timer;
   const clickBtn = () => {
-    const clickedKanbanState = kanbanState || KANBAN_STATE.TODOS;
-    setmodalState({ state: clickedKanbanState });
+    if (timer) {
+      setTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      const clickedKanbanState = kanbanState || KANBAN_STATE.TODOS;
+      setmodalState({ state: clickedKanbanState });
+    }, [500]);
   };
   return <DivWrapper onClick={clickBtn}>{children}</DivWrapper>;
 };
