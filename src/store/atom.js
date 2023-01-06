@@ -1,11 +1,4 @@
 import { atom, selector } from 'recoil';
-import {
-  getLocalStorageKanban,
-  isKanbanEmpty,
-  postDummyData,
-  postLocalStorageId,
-  postLocalStorageKanban,
-} from '../utils/localStorgeFn';
 
 import { DUMMY_KANBAN } from '../utils/dummyData';
 import { KANBAN_STATE } from '../utils/constant';
