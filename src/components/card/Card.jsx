@@ -9,14 +9,9 @@ import { useSetRecoilState } from 'recoil';
 const Card = ({ item, kanbanState }) => {
   const [isHover, setIsHover] = useState(false);
   const setmModalState = useSetRecoilState(modalState);
-  let timer;
+
   const clickCard = () => {
-    if (timer) {
-      clearTimeout(timer);
-    }
-    timer = setTimeout(() => {
-      setmModalState({ ...item, state: kanbanState });
-    }, [500]);
+    setmModalState({ ...item, state: kanbanState });
   };
 
   const handleMouseOver = () => {
