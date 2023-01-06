@@ -10,6 +10,7 @@ import { KANBAN_STATE } from '../utils/constant';
 import { isObjectHasKey } from '../utils/utilFn';
 
 const Home = () => {
+
   const modalData = useRecoilValue(modalState);
   const todos = useRecoilValue(kanbanCardsState[KANBAN_STATE.TODOS]);
   const progress = useRecoilValue(kanbanCardsState[KANBAN_STATE.PROGRESS]);
