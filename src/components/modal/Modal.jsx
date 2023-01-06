@@ -14,6 +14,7 @@ import ModalTitle from '../inputs/ModalTitle';
 import ModalRow from './ModalRow';
 
 const Modal = () => {
+  let timer;
   const resetModal = useResetRecoilState(modalState);
   const modalData = useRecoilValue(modalCardSelector);
   const card = modalData.isUpdate
@@ -24,13 +25,22 @@ const Modal = () => {
     useUpdateCards();
 
   const clickOverlay = (e) => {
+    // if (timer) {
+    // clearTimeout(timer); // 0.5초 미만으로 입력이 주어질 경우 해당 timer를 clear(없앤다)한다.
+    // }
+    // timer = setTimeout(() => {
     if (e.target.id === 'overlay') {
       return resetModal();
     }
+    // }, 500);
   };
 
   const clickSaveBtn = (event) => {
     event.preventDefault();
+    // if (timer) {
+    // clearTimeout(timer); // 0.5초 미만으로 입력이 주어질 경우 해당 timer를 clear(없앤다)한다.
+    // }
+    // timer = setTimeout(() => {
     if (!card.isNoEmpty()) {
       return alert('모든 내용을 입력해주세요');
     }
@@ -43,13 +53,19 @@ const Modal = () => {
 
     updateLocalStorgeId(card.id);
     resetModal();
+    // }, 500);
   };
 
   const clickCancelBtn = (event) => {
     event.preventDefault();
+    // if (timer) {
+    // clearTimeout(timer); // 0.5초 미만으로 입력이 주어질 경우 해당 timer를 clear(없앤다)한다.
+    // }
+    // timer = setTimeout(() => {
     if (window.confirm('변경 사항을 취소하시겠습니까?')) {
       resetModal();
     }
+    // }, 500);
   };
 
   return (
