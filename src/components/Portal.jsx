@@ -19,7 +19,7 @@ const Portal = ({ children }) => {
 export default Portal;
 
 const DivModalWrapper = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   display: grid;
   place-items: center;

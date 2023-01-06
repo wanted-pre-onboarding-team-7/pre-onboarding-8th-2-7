@@ -13,11 +13,11 @@ const KanvanCard = ({
   onUpdate,
   status,
 }) => {
+  const inputRef = useRef();
   const [isHover, setIsHover] = useState(false);
+  const [mode, setMode] = useState(true);
   const setToggle = useSetRecoilState(toggleModal);
   const setCardId = useSetRecoilState(selectedCardId);
-  const inputRef = useRef();
-  const [mode, setMode] = useState(true);
   const card = useRecoilValue(getCardState({ id, status }));
 
   const handleOpenModal = (e) => {
@@ -41,17 +41,12 @@ const KanvanCard = ({
     setMode(!mode);
   };
 
-  const handleDragStart = (e) => {
-    e.dataTransfer.setData('card', JSON.stringify(card));
-  };
-
   return (
     <DivCardWrapper
       draggable
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
       onClick={handleOpenModal}
-      onDragStart={handleDragStart}
     >
       <div>
         <DivTitleWrapper onClick={handleOpenModal}>

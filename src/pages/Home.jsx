@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { KANBAN_STATE } from '../utils/constant';
 import styled from 'styled-components';
 import KanvanList from '../components/KanvanList';

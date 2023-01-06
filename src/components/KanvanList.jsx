@@ -42,14 +42,21 @@ const KanvanList = ({ name, stateName }) => {
     }));
   });
 
+  const handleDragStart = (e) => {
+    console.log('드래그 시작');
+    e.dataTransfer.setData('card', JSON.stringify(card));
+    console.log(e.target.getBoundingClientRect());
+  };
+
   const handleDragOver = (e) => {
     e.preventDefault();
   };
 
   const handleDragDrop = (e) => {
     e.preventDefault();
+    console.log(e.clientX, e.clientY);
     console.log(stateName);
-    console.log('드래그', JSON.parse(e.dataTransfer.getData('card')));
+    console.log('드랍', JSON.parse(e.dataTransfer.getData('card')));
   };
 
   return (
@@ -61,13 +68,16 @@ const KanvanList = ({ name, stateName }) => {
         </DivStatusContainer>
       </DivStatusWrapper>
       <DivListWrapper>
-        <UlListArea onDrop={handleDragDrop} onDragOver={handleDragOver}>
+        <UlListArea>
           {kanvanCards[stateName].map((card) => (
             <KanvanCard
               key={card.id}
               {...card}
               onRemove={handleRemove}
               onUpdate={handleUpdateTitle}
+              onDragOver={handleDragOver}
+              onDragStart={handleDragStart}
+              onDragEnd={handleDragDrop}
             />
           ))}
         </UlListArea>
