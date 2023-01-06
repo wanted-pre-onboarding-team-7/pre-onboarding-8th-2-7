@@ -1,8 +1,10 @@
 {
   "files": {
-    "main.js": "/pre-onboarding-8th-2-7/static/js/main.3f8f279a.js",
+    "main.js": "/pre-onboarding-8th-2-7/static/js/main.51e72748.js",
     "index.html": "/pre-onboarding-8th-2-7/index.html",
-    "main.3f8f279a.js.map": "/pre-onboarding-8th-2-7/static/js/main.3f8f279a.js.map"
+    "main.51e72748.js.map": "/pre-onboarding-8th-2-7/static/js/main.51e72748.js.map"
   },
-  "entrypoints": ["static/js/main.3f8f279a.js"]
+  "entrypoints": [
+    "static/js/main.51e72748.js"
+  ]
 }
