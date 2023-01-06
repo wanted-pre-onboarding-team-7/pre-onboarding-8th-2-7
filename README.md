@@ -65,11 +65,12 @@ npm start
 
 ### [Assignment1] 데이터 전역 상태 관리 로직 구현
 
-#### 📝 로컬 데이터 저장 로직 구현 (Recoil-Persist) (Best Practice By <span style="background-color: #BFCFFF">유서경</span> )
+#### 📝 로컬 데이터 저장 로직 구현 (Recoil-Persist)
 
 - 담당자: 김형욱, 김수진
 
-* 선정 이유: Recoil-Persist라는 라이브러리를 사용하여 로컬 저장 데이터 로직을 구현했습니다.
+* LocalStorage에 저장되는 로컬 데이터는 recoil-persist를 추가로 사용
+* recoil을 사용한 전역 상태관리
 
 ```js
 import { recoilPersist } from 'recoil-persist';
@@ -91,10 +92,6 @@ const doneCardsState = atom({
   effects: [persistAtom],
 });
 ```
-
-- recoil을 사용한 전역 상태관리
-
-* LocalStorage에 저장되는 로컬 데이터는 recoil-persist를 추가로 사용
 
 ### [Assignment2] 칸반보드의 모달창(이슈카드 Read, Update)
 
@@ -300,7 +297,12 @@ const ModalStateInput = ({ card }) => {
 
 ## Assignment8) 사용자 검색기능
 
+#### 📝 타이핑을 통한 사용자 검색 기능 구현
+
 - 담당자 : 경지윤
+
+- `filterUserByCurrValue` : `onChange`로 `keyword`가 계속 갱신 되기때문에 리렌더링시 해당 함수가 계속 재생산되지 않도록 `useCallback` 으로 구현
+- 자동검색 기능은 `filter`와 `includes`를 사용했습니다.
 
 ```js
 // 리렌더링 될때마다 filter되는 함수 재생산되지 않도록 useCallback 사용
@@ -309,8 +311,12 @@ const filterUserByCurrValue = useCallback(() => {
 }, [keyword]);
 ```
 
-- `filterUserByCurrValue` : `onChange`로 `keyword`가 계속 갱신 되기때문에 리렌더링시 해당 함수가 계속 재생산되지 않도록 `useCallback` 으로 구현
-- 자동검색 기능은 `filter`와 `includes`를 사용했습니다.
+- `useDebounce`
+  - keyword 값과 delay 시키고 싶은 시간을 매개변수받음
+  - 받은 value 값을 0.5초 지연후에 setter 함수로 상태변경
+- `debounceValue`
+  - 위에서 작성한 useDebounce 에서 받은 값을 의존성에 추가
+  - 해당 값이 변경될때마다 (0.5초 딜레이) filter 함수를 실행시켜 추후 api 호출 코드로 변경 되어도 성능 관련 이슈에 대처하도록함
 
 ```js
 import { useEffect, useState } from 'react';
@@ -353,16 +359,15 @@ const onChange = (evt) => {
 };
 ```
 
-- `useDebounce`
-  - keyword 값과 delay 시키고 싶은 시간을 매개변수받음
-  - 받은 value 값을 0.5초 지연후에 setter 함수로 상태변경
-- `debounceValue`
-  - 위에서 작성한 useDebounce 에서 받은 값을 의존성에 추가
-  - 해당 값이 변경될때마다 (0.5초 딜레이) filter 함수를 실행시켜 추후 api 호출 코드로 변경 되어도 성능 관련 이슈에 대처하도록함
-
 ## Assignment9) 로딩
 
+#### 📝 데이터가 로딩중인 경우 액션 발생 방지
+
 - 담당자 : 경지윤
+
+- `Home.jsx` > 데이터관련 변경시 로딩컴포넌트 띄우기
+  - recoil로 관리되고있는 3가지 상태의 데이터를 `useEffect`의 의존성에 추가
+  - 데이터가 변경될때마다 tick함수로 0.5초 동안 로딩컴포넌트를 렌더링하도록 `setIsKanbanChanged`사용
 
 ```js
   const modalData = useRecoilValue(modalState);
@@ -387,27 +392,32 @@ const onChange = (evt) => {
   )
 ```
 
-- `Home.jsx` > 데이터관련 변경시 로딩컴포넌트 띄우기
-  - recoil로 관리되고있는 3가지 상태의 데이터를 `useEffect`의 의존성에 추가
-  - 데이터가 변경될때마다 tick함수로 0.5초 동안 로딩컴포넌트를 렌더링하도록 `setIsKanbanChanged`사용
-
-```js
-let closeTimer;
-const clickOverlay = (e) => {
-  e.preventDefault();
-  if (closeTimer) {
-    clearTimeout(closeTimer);
-  }
-  timer = setTimeout(() => {
-    if (e.target.id === 'overlay') {
-      return resetModal();
-    }
-  }, 500);
-};
-```
-
--`Modal.jsx` > form 제출 등 액션 발생시 2번 이상의 중복액션 방지
+- `Modal.jsx` > form 제출 등 액션 발생시 2번 이상의 중복액션 방지
 
 - setTimeout을 사용하여 0.5초의 딜레이를 발생시킴
 - 타이머가 존재하면 등록된 모든 이벤트와 timerId를 제거하도록 코드작성
 - 클릭 관련이벤트에 중복 방지 0.5초 딜레이를 모두 적용
+
+```js
+let timer;
+const clickSaveBtn = (event) => {
+  event.preventDefault();
+  if (timer) {
+    clearTimeout(timer);
+  }
+  timer = setTimeout(() => {
+    if (!card.isNoEmpty()) {
+      return alert('모든 내용을 입력해주세요');
+    }
+
+    if (initialState === card.state) {
+      updateSameStateCardsByCard(card);
+    } else {
+      updateDiffStateCardsByCard(initialState, card);
+    }
+
+    updateLocalStorgeId(card.id);
+    resetModal();
+  }, 500);
+};
+```
