@@ -4,7 +4,5 @@
     "index.html": "/pre-onboarding-8th-2-7/index.html",
     "main.3f8f279a.js.map": "/pre-onboarding-8th-2-7/static/js/main.3f8f279a.js.map"
   },
-  "entrypoints": [
-    "static/js/main.3f8f279a.js"
-  ]
+  "entrypoints": ["static/js/main.3f8f279a.js"]
 }
