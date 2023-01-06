@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { useUpdateSameCardsById } from '../hooks/useUpdateCards';
+import { useUpdateCards } from '../hooks/useUpdateCards';
 import { dragOverState, dragState } from '../store/atom';
 
 const Draggable = ({ id, kanbanState, children }) => {
@@ -9,7 +9,7 @@ const Draggable = ({ id, kanbanState, children }) => {
   const [dragOverItem, setDragOverItem] = useRecoilState(dragOverState);
 
   const { updateSameStateCardsById, updateDiffStateCardsById } =
-    useUpdateSameCardsById();
+    useUpdateCards();
 
   const dragStart = (e) => {
     e.stopPropagation();

@@ -5,10 +5,11 @@ import {
   createCard,
   deleteCard,
   getCardById,
+  updateCard,
   updateNewCard,
 } from '../utils/utilFn';
 
-export const useUpdateSameCardsById = () => {
+export const useUpdateCards = () => {
   const [todos, setTodos] = useRecoilState(
     kanbanCardsState[KANBAN_STATE.TODOS],
   );
@@ -38,16 +39,36 @@ export const useUpdateSameCardsById = () => {
 
   const updateDiffStateCardsById = (prevState, prevId, currState, currId) => {
     const selectedCard = getCardById(cardsArr[prevState], prevId);
-    const newDragCards = deleteCard(cardsArr[prevState], prevId);
-    const newDragOverCards = updateNewCard(
+    const newPrevCards = deleteCard(cardsArr[prevState], prevId);
+    const newCurrCards = updateNewCard(
       cardsArr[currState],
       currId,
       selectedCard,
     );
 
-    setCardsArr[prevState](newDragCards);
-    setCardsArr[currState](newDragOverCards);
+    setCardsArr[prevState](newPrevCards);
+    setCardsArr[currState](newCurrCards);
   };
 
-  return { updateSameStateCardsById, updateDiffStateCardsById };
+  const updateSameStateCardsByCard = (card) => {
+    const newCard = card.isNewCard
+      ? createCard(cardsArr[card.state], card)
+      : updateCard(cardsArr[card.state], card);
+    setCardsArr[card.state](newCard);
+  };
+
+  const updateDiffStateCardsByCard = (prevState, card) => {
+    const newPrevCards = deleteCard(cardsArr[prevState], card.id);
+    const newCard = createCard(cardsArr[card.state], card);
+
+    setCardsArr[prevState](newPrevCards);
+    setCardsArr[card.state](newCard);
+  };
+
+  return {
+    updateSameStateCardsById,
+    updateDiffStateCardsById,
+    updateSameStateCardsByCard,
+    updateDiffStateCardsByCard,
+  };
 };

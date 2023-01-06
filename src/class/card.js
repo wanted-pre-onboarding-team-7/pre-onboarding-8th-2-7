@@ -1,5 +1,5 @@
 import { getLocalStorageId, postLocalStorageId } from '../utils/localStorgeFn';
-import { createCard, getFormattedToday, updateCard } from '../utils/utilFn';
+import { getFormattedToday } from '../utils/utilFn';
 
 export class Card {
   #id;
@@ -86,8 +86,8 @@ export class Card {
     };
   }
 
-  getNewCards(cards) {
-    return updateCard(cards, this);
+  get isNewCard() {
+    return false;
   }
 
   isNoEmpty() {
@@ -111,6 +111,12 @@ export class Card {
   }
 }
 
+export class NewCard extends Card {
+  get isNewCard() {
+    return true;
+  }
+}
+
 export const createNewId = () => {
   const newId = Number(getLocalStorageId()) + 1;
   return newId;
@@ -128,9 +134,3 @@ export const defaultCard = {
   content: '',
   manager: '',
 };
-
-export class NewCard extends Card {
-  getNewCards(cards) {
-    return createCard(cards, this);
-  }
-}
