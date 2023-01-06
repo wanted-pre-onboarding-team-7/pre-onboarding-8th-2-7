@@ -1,6 +1,6 @@
 # Team :seven: | 칸반보드 구현하기 (Week 2)
 
-이 레파지토리는 원티드 프리온보딩 프론트엔드 인턴십 1주차 과제를 위해 만들어졌습니다.
+이 레파지토리는 원티드 프리온보딩 프론트엔드 인턴십 2주차 과제를 위해 만들어졌습니다.
 
 팀원들과 토론해 선발과제의 요구사항별로 Best Practice를 도출해 하나의 프로젝트로 만들었습니다.
 
@@ -22,6 +22,7 @@
 </table>
 
 ##### :point_right: [팀 컨벤션](https://github.com/wanted-pre-onboarding-team-7/pre-onboarding-8th-2-7/wiki/%5B7%ED%8C%80%5D-%ED%8C%80-%EC%BB%A8%EB%B2%A4%EC%85%98) 보러가기
+
 ## :heavy_check_mark: 사용 라이브러리 및 툴
 
 <div style="float: left;">
@@ -62,8 +63,8 @@ npm start
 
 꼭 Best Practice로 선정되지 않아도 스스로 공부해보고 싶은 부분을 담당해 코드를 구현했습니다.
 
-
 ### [Assignment1] 데이터 전역 상태 관리 로직 구현
+
 #### 📝 로컬 데이터 저장 로직 구현 (Recoil-Persist) (Best Practice By <span style="background-color: #BFCFFF">유서경</span> )
 
 - 담당자: 김형욱, 김수진
@@ -92,14 +93,17 @@ const doneCardsState = atom({
 ```
 
 - recoil을 사용한 전역 상태관리
+
 * LocalStorage에 저장되는 로컬 데이터는 recoil-persist를 추가로 사용
 
 ### [Assignment2] 칸반보드의 모달창(이슈카드 Read, Update)
 
 #### 📝 Modal 데이터를 atom, selector를 사용하여 전역 관리
+
 - 객체 전역 데이터인 `modalState`를 사용하여 모달창 on/off
 - 새로만들기 클릭 시 칸반보드 state 정보를, 카드 클릭 시 카드 데이터 정보를 `modalState`에 전달
 - `selector`를 사용하여 `atom`의 정보 변환하여 모달창에 전달
+
 ```jsx
 export const modalState = atom({
   key: 'ModalState',
@@ -118,17 +122,17 @@ export const modalCardSelector = selector({
 ```
 
 - `selector`에서 반환하는 값으로 Card 인스턴스를 생성함(인스턴스 팩토리 함수 사용)
-```jsx
-Modal.js
-  const modalData = useRecoilValue(modalCardSelector);
-  const card = modalData.isUpdate
-    ? Card.createCard(modalData)
-    : Card.createNewCard(modalData);
 
+```jsx
+Modal.js;
+const modalData = useRecoilValue(modalCardSelector);
+const card = modalData.isUpdate
+  ? Card.createCard(modalData)
+  : Card.createNewCard(modalData);
 ```
 
-
 #### 📝 Card class를 활용한 데이터와 로직 관리
+
 - Modal 컴포넌트에서 데이터 get/set 로직과 필요한 객체 반환 로직을 클래스 인스턴스를 사용하여 처리
 - Static method인`createCard` `createNewCard`를 사용하여 기존 카드 생성/ 새로운 카드 생성하는 인스턴스 팩토리 함수 구햔
 
@@ -203,29 +207,26 @@ export class NewCard extends Card {
 }
 ```
 
-
 #### 📝 useUpdateCards 커스텀 훅을 사용한 Cards 배열 데이터 관리
+
 - 모달 창에서 저장 버튼 클릭 시 빈 input 값이 있다면 alert 발생
 - 새로운 카드 생성 / 기존 카드 수정에 따라 커스텀 훅 실행
 
 ```jsx
-  const clickSaveBtn = (event) => {
+const clickSaveBtn = (event) => {
+  event.preventDefault();
+  if (!card.isNoEmpty()) {
+    return alert('모든 내용을 입력해주세요');
+  }
 
-    event.preventDefault();
-    if (!card.isNoEmpty()) {
-      return alert('모든 내용을 입력해주세요');
-    }
-
-    if (initialState === card.state) {
-      updateSameStateCardsByCard(card);
-    } else {
-      updateDiffStateCardsByCard(initialState, card);
-    }
-
-  };
-
-
+  if (initialState === card.state) {
+    updateSameStateCardsByCard(card);
+  } else {
+    updateDiffStateCardsByCard(initialState, card);
+  }
+};
 ```
+
 - 전역으로 관리하는 3 개의 상태(배열)을 수정하는 커스텀 훅
 
 ```jsx
@@ -245,7 +246,6 @@ export const useUpdateCards = () => {
     progress: setProgress,
     done: setDone,
   };
-
 
   const updateSameStateCardsByCard = (card) => {
     const newCard = card.isNewCard
@@ -267,32 +267,33 @@ export const useUpdateCards = () => {
     updateDiffStateCardsByCard,
   };
 };
-
-
 ```
 
 #### 📝 모달 상태 값 관리
+
 - 담당자: 임수진
+
 ```js
 import { KANBAN_STATE } from '../../utils/constant';
 
 const ModalStateInput = ({ card }) => {
-    const stateRef = useRef(card.state);
-  
-    const optionClick = () => {
-      card.state = stateRef.current.value;
-    };
-  
-    return (
-      <DivWrapper>
-        <select ref={stateRef} defaultValue={stateRef} onChange={optionClick}>
-          <option value={KANBAN_STATE.TODOS}>할 일</option>
-          <option value={KANBAN_STATE.PROGRESS}>진행 중</option>
-          <option value={KANBAN_STATE.DONE}>완료</option>
-        </select>
-      </DivWrapper>
-    );
+  const stateRef = useRef(card.state);
+
+  const optionClick = () => {
+    card.state = stateRef.current.value;
   };
-  ```
-  - `useRef`로 선택된 값을 받고, `create`ㆍ`read`ㆍ`update`의 모달창이 동일하기 때문에 `create`가 아닐 경우 이미 선택된 값을 받아와 사용
-  - 각각의 option value는 값이 변하지 않기 때문에 상수를 불러와 사용
+
+  return (
+    <DivWrapper>
+      <select ref={stateRef} defaultValue={stateRef} onChange={optionClick}>
+        <option value={KANBAN_STATE.TODOS}>할 일</option>
+        <option value={KANBAN_STATE.PROGRESS}>진행 중</option>
+        <option value={KANBAN_STATE.DONE}>완료</option>
+      </select>
+    </DivWrapper>
+  );
+};
+```
+
+- `useRef`로 선택된 값을 받고, `create`ㆍ`read`ㆍ`update`의 모달창이 동일하기 때문에 `create`가 아닐 경우 이미 선택된 값을 받아와 사용
+- 각각의 option value는 값이 변하지 않기 때문에 상수를 불러와 사용
