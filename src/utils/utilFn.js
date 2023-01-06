@@ -41,6 +41,7 @@ export const updateCard = (prevCards, card) => {
   });
   return newCards;
 };
+
 export const updateNewCard = (prevCards, prevId, card) => {
   const findIndex = prevCards.findIndex((storedCard) => {
     return String(storedCard.id) === String(prevId);

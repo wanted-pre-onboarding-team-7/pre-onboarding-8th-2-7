@@ -25,6 +25,7 @@ const Modal = () => {
     ? Card.createCard(modalData)
     : Card.createNewCard(modalData);
 
+  // TODO: card.state 업데이트되지 않는 오류 발생!
   const [cards, setCards] = useRecoilState(kanbanCardsState[card.state]);
 
   const clickOverlay = (e) => {
@@ -32,18 +33,14 @@ const Modal = () => {
       return resetModal();
     }
   };
+
   const clickSaveBtn = (event) => {
     event.preventDefault();
     if (!card.isNoEmpty()) {
       return alert('모든 내용을 입력해주세요');
     }
 
-    const newCards = isUpdate
-      ? updateCard([...cards], card)
-      : createCard([...cards], card);
-
-    setCards(newCards);
-
+    setCards(card.getNewCards([...cards]));
     updateLocalStorgeId(card.id);
     resetModal();
   };
