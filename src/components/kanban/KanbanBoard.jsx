@@ -19,6 +19,6 @@ const DivColsWrapper = styled.div`
   height: 80vh;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 20px;
+  /* grid-gap: 50px; */
   grid-auto-rows: minmax(100px, auto);
 `;

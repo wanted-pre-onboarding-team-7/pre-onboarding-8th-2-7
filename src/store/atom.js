@@ -13,6 +13,10 @@ import { recoilPersist } from 'recoil-persist';
 
 const { persistAtom } = recoilPersist();
 
+export const dragColState = atom({
+  key: 'DragColState',
+  default: {},
+});
 export const dragState = atom({
   key: 'DragState',
   default: {},

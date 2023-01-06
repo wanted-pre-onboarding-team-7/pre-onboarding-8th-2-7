@@ -57,7 +57,7 @@ const DivWrapper = styled.div`
 `;
 
 const DivCard = styled.div`
-  height: 100px;
+  height: 150px;
   display: flex;
   border-radius: 10px;
   padding: 15px;
