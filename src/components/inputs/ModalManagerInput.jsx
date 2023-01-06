@@ -34,9 +34,9 @@ const ModalManagerInput = ({ card }) => {
   // 타이핑 할때마다가 필터링하지 않고 .5초 정도 사용자가 타이핑이 끝났을때 filter하기
   const onChange = (evt) => {
     setKeyword(evt.currentTarget.value);
+    card.manager = evt.currentTarget.value;
   };
   // 포커스 아웃되었을때
-  // action 순서 딜레이 해주기 => 이름클릭시 input 먼저 채워지고 DropDown 렌더링 없애기
   const onBlurAction = () => {
     const tick = () => {
       setTimeout(() => {
