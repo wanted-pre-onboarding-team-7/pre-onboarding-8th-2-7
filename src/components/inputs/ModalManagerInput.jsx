@@ -26,13 +26,15 @@ const ModalManagerInput = ({ card }) => {
     setFilterdUser(filterUserByCurrValue());
   }, [debounceValue, setFilterdUser, filterUserByCurrValue]);
 
+  const setValue = (value) => {
+    card.manager = value;
+    setKeyword(value);
+  };
   // 검색 기능에 디바운싱 적용
   // 타이핑 할때마다가 필터링하지 않고 .5초 정도 사용자가 타이핑이 끝났을때 filter하기
   const onChange = (evt) => {
-    card.manager = evt.currentTarget.value;
     setKeyword(evt.currentTarget.value);
   };
-
   // 포커스 아웃되었을때
   // action 순서 딜레이 해주기 => 이름클릭시 input 먼저 채워지고 DropDown 렌더링 없애기
   const onBlurAction = () => {
@@ -54,7 +56,7 @@ const ModalManagerInput = ({ card }) => {
         onFocus={() => setIsDropdown(true)}
         onBlur={onBlurAction}
       />
-      {isDropdown && <Dropdown items={filterdUser} setValue={setKeyword} />}
+      {isDropdown && <Dropdown items={filterdUser} setValue={setValue} />}
     </DivWrapper>
   );
 };
