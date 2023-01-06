@@ -294,6 +294,119 @@ const ModalStateInput = ({ card }) => {
 
 - `useRef`로 선택된 값을 받고, `create`ㆍ`read`ㆍ`update`의 모달창이 동일하기 때문에 `create`가 아닐 경우 이미 선택된 값을 받아와 사용
 - 각각의 option value는 값이 변하지 않기 때문에 상수를 불러와 사용
+### [Assignment3,4] Trello 기능 - 상태변경,정렬기능
+
+- 담당자 : 이수창
+- HTML Event인 DragStart, DragOver(DragEnter), drop(DragEnd)를 사용하여 구현
+- 각각의 카드들이 순서를 변경할 때 자체적인 hooks를 이용하여 관리
+```js
+  const updateSameStateCardsByCard = (card) => {
+    const newCard = card.isNewCard
+      ? createCard(cardsArr[card.state], card)
+      : updateCard(cardsArr[card.state], card);
+    setCardsArr[card.state](newCard);
+  };
+
+  const updateDiffStateCardsById = (
+    prevState,
+    prevId,
+    currState,
+    currId,
+    index,
+  ) => {
+    const selectedCard = getCardById(cardsArr[prevState], prevId);
+    const newPrevCards = deleteCard(cardsArr[prevState], prevId);
+    const isEnd = cardsArr[currState].length - 1 === index;
+
+    const newCurrCards = isEnd
+      ? createCard(cardsArr[currState], selectedCard)
+      : updateNewCard(cardsArr[currState], currId, selectedCard);
+
+    setCardsArr[prevState](newPrevCards);
+    setCardsArr[currState](newCurrCards);
+  };
+```
+- 칸반카드의 상태(할 일, 진행 중, 완료)에 따라 서로의 카드들의 동일 유무 분기 처리
+
+```js
+  const dragStart = (e) => {
+    e.stopPropagation();
+    setDragItem({ state: kanbanState, id: e.target.id });
+  };
+
+  const dragEnter = (enterState, e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setDragOverItem({ state: enterState, id: e.currentTarget.id });
+  };
+
+  const drop = async (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    return dragItem.state === dragOverItem.state
+      ? updateSameStateCardsById(dragItem.state, dragItem.id)
+      : updateDiffStateCardsById(
+          dragItem.state,
+          dragItem.id,
+          dragOverItem.state,
+          dragOverItem.id,
+        );
+  };
+
+  return (
+    <DivDragabble
+      draggable
+      onDragStart={dragStart}
+      onDragOver={dragEnter.bind(this, kanbanState)}
+      onDragEnd={drop}
+      id={id}
+    >
+      {children}
+    </DivDragabble>
+  );
+};
+```
+- dragStart->dragEnter->drop의 이벤트 진행 흐름 구현
+
+
+
+#### (ADDITIANL POINT)하나의 상태이 빈 배열일 때 카드추가, 예를 들어 할 일의 column이 빈 배열일 때 다른 상태에서 할 일 column의 첫 요소로 추가하는 경우
+
+```js
+  const dragEnter = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (cards.length === 0) {
+      updateDiffStateCardsById(dragItem.state, dragItem.id, title, -1);
+    }
+  };
+```
+- 빈 배열일 때의 length를 파악함
+
+#### (ADDITIANL POINT)한 배열의 끝 부분을 추가하는 경우 계속 맨 끝에 추가되지 않고 끝 부분에서 바로 위에 정렬되는 경우
+
+```js
+  const updateDiffStateCardsById = (
+    prevState,
+    prevId,
+    currState,
+    currId,
+    index,
+  ) => {
+    const selectedCard = getCardById(cardsArr[prevState], prevId);
+    const newPrevCards = deleteCard(cardsArr[prevState], prevId);
+    const isEnd = cardsArr[currState].length - 1 === index;
+
+    const newCurrCards = isEnd
+      ? createCard(cardsArr[currState], selectedCard)
+      : updateNewCard(cardsArr[currState], currId, selectedCard);
+
+    setCardsArr[prevState](newPrevCards);
+    setCardsArr[currState](newCurrCards);
+  };
+```
+- dragEnter한 부분이 배열의 마지막 요소인 것을 
 
 ## Assignment8) 사용자 검색기능
 
